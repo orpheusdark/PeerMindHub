@@ -84,7 +84,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         "admin@demo.com": {
           id: "demo_admin_001",
           email: "admin@demo.com",
-          displayName: "PeerMindHub Admin",
+          displayName: "MindConnect Admin",
           bio: "Platform administrator ensuring safe and supportive community environment.",
           isAnonymous: false,
           role: "admin" as const,
