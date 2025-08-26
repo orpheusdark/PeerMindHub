@@ -12,7 +12,7 @@ export default function TermsOfServicePage() {
         <div className="text-center">
           <Link href="/" className="inline-flex items-center space-x-2 mb-6">
             <Heart className="h-8 w-8 text-primary" />
-            <span className="font-bold text-2xl text-foreground">MindConnect</span>
+            <span className="font-bold text-2xl text-foreground">PeerMindHub</span>
           </Link>
           <h1 className="text-3xl font-bold text-foreground">Terms of Service</h1>
           <p className="text-muted-foreground mt-2">Demo Platform - Last updated: January 2025</p>
@@ -45,7 +45,7 @@ export default function TermsOfServicePage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-muted-foreground">
-                By accessing and using MindConnect (demo platform), you accept and agree to be bound by these Terms of
+                By accessing and using PeerMindHub (demo platform), you accept and agree to be bound by these Terms of
                 Service. This platform is provided for demonstration purposes only.
               </p>
               <p className="text-muted-foreground">

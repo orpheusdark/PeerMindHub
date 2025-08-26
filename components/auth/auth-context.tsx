@@ -43,7 +43,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const checkAuth = async () => {
       try {
         // Simulate checking for existing session
-        const savedUser = localStorage.getItem("mindconnect_user")
+        const savedUser = localStorage.getItem("peermind_user")
         if (savedUser) {
           setUser(JSON.parse(savedUser))
         }
@@ -84,7 +84,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         "admin@demo.com": {
           id: "demo_admin_001",
           email: "admin@demo.com",
-          displayName: "MindConnect Admin",
+          displayName: "PeerMindHub Admin",
           bio: "Platform administrator ensuring safe and supportive community environment.",
           isAnonymous: false,
           role: "admin" as const,
@@ -95,7 +95,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       const demoUser = demoUsers[email as keyof typeof demoUsers]
       if (demoUser && password === "password123") {
-        localStorage.setItem("mindconnect_user", JSON.stringify(demoUser))
+        localStorage.setItem("peermind_user", JSON.stringify(demoUser))
         setUser(demoUser)
         return
       }
@@ -109,7 +109,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         createdAt: new Date(),
       }
 
-      localStorage.setItem("mindconnect_user", JSON.stringify(mockUser))
+      localStorage.setItem("peermind_user", JSON.stringify(mockUser))
       setUser(mockUser)
     } catch (error) {
       console.error("Sign in failed:", error)
@@ -132,7 +132,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         createdAt: new Date(),
       }
 
-      localStorage.setItem("mindconnect_user", JSON.stringify(newUser))
+      localStorage.setItem("peermind_user", JSON.stringify(newUser))
       setUser(newUser)
     } catch (error) {
       console.error("Sign up failed:", error)
@@ -144,7 +144,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = async () => {
     try {
-      localStorage.removeItem("mindconnect_user")
+      localStorage.removeItem("peermind_user")
       setUser(null)
     } catch (error) {
       console.error("Sign out failed:", error)
@@ -157,7 +157,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     try {
       const updatedUser = { ...user, ...data }
-      localStorage.setItem("mindconnect_user", JSON.stringify(updatedUser))
+      localStorage.setItem("peermind_user", JSON.stringify(updatedUser))
       setUser(updatedUser)
     } catch (error) {
       console.error("Profile update failed:", error)

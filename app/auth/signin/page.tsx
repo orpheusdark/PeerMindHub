@@ -49,7 +49,7 @@ export default function SignInPage() {
         <div className="text-center">
           <Link href="/" className="inline-flex items-center space-x-2 mb-6 hover-lift">
             <Heart className="h-8 w-8 text-primary" />
-            <span className="font-bold text-2xl text-foreground">MindConnect</span>
+            <span className="font-bold text-2xl text-foreground">PeerMindHub</span>
           </Link>
           <h1 className="text-2xl font-bold text-foreground">Welcome Back</h1>
           <p className="text-muted-foreground mt-2">Sign in to your secure, anonymous account</p>
