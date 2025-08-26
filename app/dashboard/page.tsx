@@ -286,8 +286,10 @@ function DashboardContent() {
                     </div>
                   </div>
                   <Button variant="outline" className="w-full bg-transparent">
-                    <MessageCircle className="h-4 w-4 mr-2" />
-                    Join Conversations
+                    <Link href="/forums" className="flex items-center">
+                      <MessageCircle className="h-4 w-4 mr-2" />
+                      Join Conversations
+                    </Link>
                   </Button>
                 </CardContent>
               </Card>

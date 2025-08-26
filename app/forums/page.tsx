@@ -248,7 +248,7 @@ function ForumsContent() {
               <CardContent className="space-y-3">
                 {trendingTopics.map((topic, index) => (
                   <div key={index} className="border-b border-border last:border-b-0 pb-3 last:pb-0">
-                    <Link href="#" className="block hover:text-primary transition-colors">
+                    <Link href="/forums/general" className="block hover:text-primary transition-colors">
                       <h4 className="font-medium text-sm mb-1">{topic.title}</h4>
                       <div className="flex items-center justify-between text-xs text-muted-foreground">
                         <span>{topic.category}</span>

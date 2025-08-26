@@ -28,13 +28,12 @@ import {
 import Link from "next/link"
 import { useParams } from "next/navigation"
 
-// Mock data for posts in a category
 const mockPosts = [
   {
     id: "1",
     title: "How do you cope with morning anxiety?",
     content:
-      "I've been struggling with intense anxiety every morning for the past few months. It makes it hard to start my day. Has anyone found techniques that help?",
+      "I've been struggling with intense anxiety every morning for the past few months. It makes it hard to start my day. Has anyone found techniques that help? मुझे सुबह बहुत चिंता होती है।",
     author: {
       displayName: "MorningWarrior",
       isAnonymous: true,
@@ -49,9 +48,9 @@ const mockPosts = [
   },
   {
     id: "2",
-    title: "Breathing exercises that actually work",
+    title: "Breathing exercises that actually work - प्राणायाम techniques",
     content:
-      "I wanted to share some breathing techniques that have really helped me manage my anxiety attacks. The 4-7-8 technique has been a game changer...",
+      "I wanted to share some breathing techniques that have really helped me manage my anxiety attacks. The 4-7-8 technique has been a game changer, and combining it with traditional pranayama has been amazing...",
     author: {
       displayName: "BreathingBuddy",
       isAnonymous: true,
@@ -62,53 +61,211 @@ const mockPosts = [
     likes: 34,
     views: 156,
     isSticky: true,
-    tags: ["breathing", "techniques", "helpful"],
+    tags: ["breathing", "techniques", "helpful", "pranayama"],
   },
   {
     id: "3",
-    title: "Anxiety at work - need advice",
+    title: "Anxiety at work - need advice for IT job stress",
     content:
-      "My job has been triggering a lot of anxiety lately. I'm worried about performance reviews and feel like I'm constantly being judged. Any advice?",
+      "My job at a tech company has been triggering a lot of anxiety lately. I'm worried about performance reviews and feel like I'm constantly being judged. The work culture is very demanding. Any advice from fellow IT professionals?",
     author: {
-      displayName: "WorkStressed",
+      displayName: "TechStressed",
       isAnonymous: true,
       joinDate: "1 month ago",
     },
     createdAt: "6 hours ago",
-    replies: 7,
-    likes: 5,
-    views: 28,
+    replies: 18,
+    likes: 15,
+    views: 89,
     isSticky: false,
-    tags: ["work", "performance", "advice"],
+    tags: ["work", "performance", "advice", "tech"],
+  },
+  {
+    id: "4",
+    title: "Dealing with family pressure about marriage - need support",
+    content:
+      "I'm 28 and my family is constantly pressuring me about getting married. It's causing me severe anxiety and depression. How do I handle this cultural pressure while taking care of my mental health?",
+    author: {
+      displayName: "FamilyStruggles",
+      isAnonymous: true,
+      joinDate: "3 weeks ago",
+    },
+    createdAt: "1 day ago",
+    replies: 31,
+    likes: 42,
+    views: 203,
+    isSticky: false,
+    tags: ["family", "marriage", "pressure", "cultural"],
+  },
+  {
+    id: "5",
+    title: "JEE/NEET preparation anxiety - students please help",
+    content:
+      "I'm preparing for JEE and the pressure is overwhelming. My parents have high expectations and I'm scared of disappointing them. The competition is so intense. How do other students cope with this stress?",
+    author: {
+      displayName: "StudyStressed",
+      isAnonymous: true,
+      joinDate: "2 weeks ago",
+    },
+    createdAt: "1 day ago",
+    replies: 27,
+    likes: 38,
+    views: 167,
+    isSticky: false,
+    tags: ["students", "jee", "neet", "pressure", "competition"],
+  },
+  {
+    id: "6",
+    title: "Mumbai therapists - affordable options?",
+    content:
+      "Can anyone recommend good and affordable therapists in Mumbai? I've been looking but most are quite expensive. Are there any government or NGO options that provide quality mental health services?",
+    author: {
+      displayName: "MumbaiSeeker",
+      isAnonymous: true,
+      joinDate: "1 week ago",
+    },
+    createdAt: "2 days ago",
+    replies: 19,
+    likes: 25,
+    views: 134,
+    isSticky: false,
+    tags: ["mumbai", "therapy", "affordable", "resources"],
+  },
+  {
+    id: "7",
+    title: "Working from home depression - post-COVID struggles",
+    content:
+      "Since COVID, I've been working from home and it's really affecting my mental health. I feel isolated and unmotivated. The boundaries between work and personal life have completely blurred. Anyone else experiencing this?",
+    author: {
+      displayName: "WFHBlues",
+      isAnonymous: true,
+      joinDate: "5 months ago",
+    },
+    createdAt: "3 days ago",
+    replies: 44,
+    likes: 67,
+    views: 298,
+    isSticky: true,
+    tags: ["wfh", "covid", "isolation", "depression"],
+  },
+  {
+    id: "8",
+    title: "Meditation apps in Hindi - recommendations?",
+    content:
+      "I want to start meditating but most apps are in English. Can anyone recommend good meditation apps or resources in Hindi? I find it easier to relax when guided in my native language.",
+    author: {
+      displayName: "HindiMeditation",
+      isAnonymous: true,
+      joinDate: "4 days ago",
+    },
+    createdAt: "4 days ago",
+    replies: 16,
+    likes: 22,
+    views: 87,
+    isSticky: false,
+    tags: ["meditation", "hindi", "apps", "language"],
   },
 ]
 
 const categoryInfo = {
   anxiety: {
-    name: "Anxiety Support",
-    description: "Share experiences and coping strategies for anxiety disorders",
+    name: "चिंता सहायता (Anxiety Support)",
+    description: "चिंता विकारों के लिए अनुभव और सामना करने की रणनीतियां साझा करें",
     icon: "🌊",
-    memberCount: 892,
+    memberCount: 1892,
     guidelines: [
       "Share your experiences openly and honestly",
       "Offer support and encouragement to others",
       "Avoid giving medical advice - share what works for you",
       "Respect different coping strategies and experiences",
+      "Use trigger warnings when discussing sensitive topics",
     ],
   },
   depression: {
-    name: "Depression Support",
-    description: "A safe space to discuss depression and mood disorders",
+    name: "अवसाद सहायता (Depression Support)",
+    description: "अवसाद और मूड विकारों पर चर्चा के लिए एक सुरक्षित स्थान",
     icon: "🌱",
-    memberCount: 1340,
+    memberCount: 2340,
     guidelines: [
       "This is a judgment-free zone for sharing experiences",
       "Support others with empathy and understanding",
       "Share resources and coping strategies that help you",
       "Remember that recovery looks different for everyone",
+      "Celebrate small victories and progress",
     ],
   },
-  // Add other categories as needed
+  stress: {
+    name: "तनाव प्रबंधन (Stress Management)",
+    description: "दैनिक तनाव को संभालने की तकनीकें और सहायता",
+    icon: "🧘",
+    memberCount: 1567,
+    guidelines: [
+      "Share practical stress management techniques",
+      "Discuss work-life balance strategies",
+      "Support others in finding healthy coping mechanisms",
+      "Share resources for relaxation and mindfulness",
+    ],
+  },
+  family: {
+    name: "पारिवारिक समस्याएं (Family Issues)",
+    description: "पारिवारिक रिश्तों और घरेलू समस्याओं के लिए सहायता",
+    icon: "👨‍👩‍👧‍👦",
+    memberCount: 1234,
+    guidelines: [
+      "Respect cultural differences in family dynamics",
+      "Share experiences with family-related stress",
+      "Offer support for relationship challenges",
+      "Maintain confidentiality and respect privacy",
+    ],
+  },
+  "work-stress": {
+    name: "कार्यक्षेत्र तनाव (Workplace Stress)",
+    description: "नौकरी और करियर संबंधी तनाव की चर्चा",
+    icon: "💼",
+    memberCount: 1789,
+    guidelines: [
+      "Share workplace mental health strategies",
+      "Discuss career-related anxiety and stress",
+      "Support others in work-life balance",
+      "Share resources for professional development",
+    ],
+  },
+  students: {
+    name: "छात्र सहायता (Student Support)",
+    description: "शैक्षणिक दबाव और करियर चिंताओं के लिए सहायता",
+    icon: "📚",
+    memberCount: 2567,
+    guidelines: [
+      "Support fellow students with academic stress",
+      "Share study techniques and coping strategies",
+      "Discuss exam anxiety and performance pressure",
+      "Celebrate academic achievements and progress",
+    ],
+  },
+  women: {
+    name: "महिला स्वास्थ्य (Women's Mental Health)",
+    description: "महिलाओं के मानसिक स्वास्थ्य के मुद्दों पर चर्चा",
+    icon: "👩",
+    memberCount: 1456,
+    guidelines: [
+      "Create a safe space for women's experiences",
+      "Discuss gender-specific mental health challenges",
+      "Support each other through life transitions",
+      "Share resources for women's mental wellness",
+    ],
+  },
+  general: {
+    name: "सामान्य चर्चा (General Discussion)",
+    description: "मानसिक स्वास्थ्य और कल्याण पर खुली चर्चा",
+    icon: "💬",
+    memberCount: 3190,
+    guidelines: [
+      "Welcome all mental health discussions",
+      "Share general wellness tips and resources",
+      "Support community building and connection",
+      "Maintain respectful and inclusive dialogue",
+    ],
+  },
 }
 
 function CategoryContent() {
@@ -123,7 +280,7 @@ function CategoryContent() {
     tags: "",
   })
 
-  const categoryData = categoryInfo[category as keyof typeof categoryInfo] || categoryInfo.anxiety
+  const categoryData = categoryInfo[category as keyof typeof categoryInfo] || categoryInfo.general
 
   const filteredPosts = mockPosts.filter(
     (post) =>
@@ -148,7 +305,7 @@ function CategoryContent() {
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center space-x-2">
               <Heart className="h-8 w-8 text-primary" />
-              <span className="font-bold text-xl text-foreground">MindConnect</span>
+              <span className="font-bold text-xl text-foreground">PeerMindHub</span>
             </Link>
             <div className="flex items-center space-x-4">
               <Link href="/forums" className="text-muted-foreground hover:text-primary transition-colors">
@@ -173,7 +330,7 @@ function CategoryContent() {
           <div className="flex items-center space-x-4 text-sm text-muted-foreground">
             <span>{categoryData.memberCount} members</span>
             <span>•</span>
-            <span>{mockPosts.length} posts</span>
+            <span>{filteredPosts.length} posts</span>
             <span>•</span>
             <span>Moderated community</span>
           </div>
@@ -387,9 +544,11 @@ function CategoryContent() {
                   <p className="text-xs">
                     If you're in crisis, please contact emergency services or call a crisis helpline immediately.
                   </p>
-                  <Button size="sm" variant="destructive" className="w-full">
-                    Crisis Resources
-                  </Button>
+                  <Link href="/crisis-helplines">
+                    <Button size="sm" variant="destructive" className="w-full">
+                      Crisis Resources
+                    </Button>
+                  </Link>
                 </div>
               </AlertDescription>
             </Alert>

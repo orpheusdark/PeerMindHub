@@ -74,33 +74,11 @@ export default function SignUpPage() {
         <div className="text-center">
           <Link href="/" className="inline-flex items-center space-x-2 mb-6">
             <Heart className="h-8 w-8 text-primary" />
-            <span className="font-bold text-2xl text-foreground">MindConnect</span>
+            <span className="font-bold text-2xl text-foreground">PeerMindHub</span>
           </Link>
           <h1 className="text-2xl font-bold text-foreground">Create Your Account</h1>
           <p className="text-muted-foreground mt-2">Join our supportive community with complete privacy protection</p>
         </div>
-
-        {/* Demo Login Notice */}
-        <Alert className="border-blue-200 bg-blue-50">
-          <Info className="h-4 w-4 text-blue-600" />
-          <AlertDescription>
-            <strong>Demo Testing:</strong> For quick testing, you can use these demo accounts or create a new one:
-            <div className="mt-2 space-y-1 text-sm">
-              <div>
-                <strong>Patient:</strong> patient@demo.com / password123
-              </div>
-              <div>
-                <strong>Counselor:</strong> counselor@demo.com / password123
-              </div>
-              <div>
-                <strong>Admin:</strong> admin@demo.com / password123
-              </div>
-            </div>
-            <Link href="/auth/signin" className="inline-block mt-2 text-blue-600 hover:underline font-medium">
-              → Go to Sign In for quick demo access
-            </Link>
-          </AlertDescription>
-        </Alert>
 
         {/* Privacy Notice */}
         <Alert className="border-primary/20 bg-primary/5">
