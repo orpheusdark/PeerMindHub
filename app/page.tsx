@@ -12,6 +12,7 @@ import {
   Phone,
   ChevronRight,
   CheckCircle,
+  Menu,
 } from "lucide-react"
 import Link from "next/link"
 
@@ -22,10 +23,10 @@ export default function HomePage() {
       <nav className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
+            <Link href="/" className="flex items-center space-x-2 hover-lift">
               <Heart className="h-8 w-8 text-primary" />
               <span className="font-bold text-xl text-foreground">MindConnect</span>
-            </div>
+            </Link>
             <div className="hidden md:flex items-center space-x-8">
               <Link href="#features" className="text-muted-foreground hover:text-primary transition-colors">
                 Features
@@ -36,70 +37,100 @@ export default function HomePage() {
               <Link href="#about" className="text-muted-foreground hover:text-primary transition-colors">
                 About
               </Link>
-              <Button variant="outline" size="sm">
-                Sign In
+              <Link href="/auth/signin">
+                <Button variant="outline" size="sm" className="hover-lift bg-transparent">
+                  Sign In
+                </Button>
+              </Link>
+              <Link href="/auth/signup">
+                <Button size="sm" className="hover-lift">
+                  Join Now
+                </Button>
+              </Link>
+            </div>
+            <div className="md:hidden">
+              <Button variant="ghost" size="sm">
+                <Menu className="h-5 w-5" />
               </Button>
-              <Button size="sm">Join Now</Button>
             </div>
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="container mx-auto text-center max-w-4xl">
-          <Badge variant="secondary" className="mb-4">
+      <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto text-center max-w-4xl animate-fade-in">
+          <Badge variant="secondary" className="mb-4 animate-gentle-bounce">
             Breaking Mental Health Barriers
           </Badge>
-          <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
             Your Safe Space for Mental Health Support
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+          <p className="text-lg sm:text-xl text-muted-foreground mb-8 leading-relaxed">
             Connect with peers, access verified resources, and find the support you need. Anonymous, accessible, and
             available 24/7 across India.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="text-lg px-8">
-              Join Community <ChevronRight className="ml-2 h-5 w-5" />
-            </Button>
-            <Button variant="outline" size="lg" className="text-lg px-8 bg-transparent">
-              Explore Resources
-            </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Link href="/auth/signup" className="w-full sm:w-auto">
+              <Button
+                size="lg"
+                className="text-lg px-8 hover-lift w-full sm:w-auto transition-all duration-300 hover:scale-105"
+              >
+                Join Community <ChevronRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+            <Link href="/resources" className="w-full sm:w-auto">
+              <Button
+                variant="outline"
+                size="lg"
+                className="text-lg px-8 bg-transparent hover-lift w-full sm:w-auto transition-all duration-300 hover:scale-105"
+              >
+                Explore Resources
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Problem Statistics */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-muted/30">
+      <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-muted/30">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">The Mental Health Crisis in India</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <div className="text-center mb-12 animate-slide-up">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
+              The Mental Health Crisis in India
+            </h2>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
               Understanding the scale of the challenge we're addressing together
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <Card className="text-center hover-lift animate-slide-up transition-all duration-300 hover:shadow-lg">
               <CardHeader>
-                <CardTitle className="text-4xl font-bold text-primary">150M</CardTitle>
+                <CardTitle className="text-3xl sm:text-4xl font-bold text-primary">150M</CardTitle>
                 <CardDescription>People need mental healthcare</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">Only 30 million are currently receiving treatment</p>
               </CardContent>
             </Card>
-            <Card className="text-center">
+            <Card
+              className="text-center hover-lift animate-slide-up transition-all duration-300 hover:shadow-lg"
+              style={{ animationDelay: "0.1s" }}
+            >
               <CardHeader>
-                <CardTitle className="text-4xl font-bold text-primary">1 in 7</CardTitle>
+                <CardTitle className="text-3xl sm:text-4xl font-bold text-primary">1 in 7</CardTitle>
                 <CardDescription>Indians have a mental disorder</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">According to Global Burden of Disease Study 2017</p>
               </CardContent>
             </Card>
-            <Card className="text-center">
+            <Card
+              className="text-center hover-lift animate-slide-up transition-all duration-300 hover:shadow-lg sm:col-span-2 lg:col-span-1"
+              style={{ animationDelay: "0.2s" }}
+            >
               <CardHeader>
-                <CardTitle className="text-4xl font-bold text-primary">0.29</CardTitle>
+                <CardTitle className="text-3xl sm:text-4xl font-bold text-primary">0.29</CardTitle>
                 <CardDescription>Psychiatrists per 1 lakh population</CardDescription>
               </CardHeader>
               <CardContent>
@@ -111,49 +142,66 @@ export default function HomePage() {
       </section>
 
       {/* Solution Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
+      <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Our Digital Solution</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <div className="text-center mb-12 animate-slide-up">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">Our Digital Solution</h2>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
               Breaking down barriers with technology, community, and compassion
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <Clock className="h-12 w-12 text-primary mb-4" />
-                <CardTitle>24/7 Accessibility</CardTitle>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <Card className="hover-lift transition-all duration-300 hover:shadow-lg animate-slide-up p-4 sm:p-6">
+              <CardHeader className="pb-4">
+                <Clock className="h-10 w-10 sm:h-12 sm:w-12 text-primary mb-4" />
+                <CardTitle className="text-lg sm:text-xl">24/7 Accessibility</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Available anytime, anywhere with internet connection</p>
+                <p className="text-muted-foreground text-sm sm:text-base">
+                  Available anytime, anywhere with internet connection
+                </p>
               </CardContent>
             </Card>
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <Shield className="h-12 w-12 text-primary mb-4" />
-                <CardTitle>Anonymous & Safe</CardTitle>
+            <Card
+              className="hover-lift transition-all duration-300 hover:shadow-lg animate-slide-up p-4 sm:p-6"
+              style={{ animationDelay: "0.1s" }}
+            >
+              <CardHeader className="pb-4">
+                <Shield className="h-10 w-10 sm:h-12 sm:w-12 text-primary mb-4" />
+                <CardTitle className="text-lg sm:text-xl">Anonymous & Safe</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Pseudonymous profiles reduce stigma and encourage openness</p>
+                <p className="text-muted-foreground text-sm sm:text-base">
+                  Pseudonymous profiles reduce stigma and encourage openness
+                </p>
               </CardContent>
             </Card>
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <Users className="h-12 w-12 text-primary mb-4" />
-                <CardTitle>Peer Community</CardTitle>
+            <Card
+              className="hover-lift transition-all duration-300 hover:shadow-lg animate-slide-up p-4 sm:p-6"
+              style={{ animationDelay: "0.2s" }}
+            >
+              <CardHeader className="pb-4">
+                <Users className="h-10 w-10 sm:h-12 sm:w-12 text-primary mb-4" />
+                <CardTitle className="text-lg sm:text-xl">Peer Community</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Connect with others who understand your experiences</p>
+                <p className="text-muted-foreground text-sm sm:text-base">
+                  Connect with others who understand your experiences
+                </p>
               </CardContent>
             </Card>
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <BookOpen className="h-12 w-12 text-primary mb-4" />
-                <CardTitle>Verified Resources</CardTitle>
+            <Card
+              className="hover-lift transition-all duration-300 hover:shadow-lg animate-slide-up p-4 sm:p-6"
+              style={{ animationDelay: "0.3s" }}
+            >
+              <CardHeader className="pb-4">
+                <BookOpen className="h-10 w-10 sm:h-12 sm:w-12 text-primary mb-4" />
+                <CardTitle className="text-lg sm:text-xl">Verified Resources</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Centralized hub of professional help and information</p>
+                <p className="text-muted-foreground text-sm sm:text-base">
+                  Centralized hub of professional help and information
+                </p>
               </CardContent>
             </Card>
           </div>
@@ -272,23 +320,31 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-primary text-primary-foreground">
-        <div className="container mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Start Your Journey?</h2>
-          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+      <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-primary text-primary-foreground">
+        <div className="container mx-auto text-center animate-fade-in">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Ready to Start Your Journey?</h2>
+          <p className="text-lg sm:text-xl mb-8 opacity-90 max-w-2xl mx-auto">
             Join thousands of others in a supportive community where your mental health matters.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="text-lg px-8">
-              Create Account
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="text-lg px-8 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary bg-transparent"
-            >
-              Browse Resources
-            </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Link href="/auth/signup" className="w-full sm:w-auto">
+              <Button
+                size="lg"
+                variant="secondary"
+                className="text-lg px-8 hover-lift w-full sm:w-auto transition-all duration-300 hover:scale-105"
+              >
+                Create Account
+              </Button>
+            </Link>
+            <Link href="/resources" className="w-full sm:w-auto">
+              <Button
+                size="lg"
+                variant="outline"
+                className="text-lg px-8 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary bg-transparent hover-lift w-full sm:w-auto transition-all duration-300 hover:scale-105"
+              >
+                Browse Resources
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -372,10 +428,14 @@ export default function HomePage() {
       </footer>
 
       {/* Crisis Help Button - Always Visible */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <Button size="lg" className="rounded-full shadow-lg hover:shadow-xl transition-shadow">
-          <Phone className="h-5 w-5 mr-2" />
-          Crisis Help
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
+        <Button
+          size="lg"
+          className="rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover-lift animate-gentle-bounce text-sm sm:text-base px-4 sm:px-6"
+        >
+          <Phone className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+          <span className="hidden sm:inline">Crisis Help</span>
+          <span className="sm:hidden">Help</span>
         </Button>
       </div>
     </div>

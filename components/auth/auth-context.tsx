@@ -11,6 +11,8 @@ interface User {
   bio?: string
   isAnonymous: boolean
   createdAt: Date
+  role: "patient" | "counselor" | "admin"
+  location?: string
 }
 
 interface AuthContextType {
@@ -58,13 +60,52 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signIn = async (email: string, password: string) => {
     setIsLoading(true)
     try {
-      // TODO: Implement actual authentication API call
-      // This is a mock implementation
+      const demoUsers = {
+        "patient@demo.com": {
+          id: "demo_patient_001",
+          email: "patient@demo.com",
+          displayName: "राहुल शर्मा (Rahul Sharma)",
+          bio: "Software engineer from Mumbai dealing with work stress and anxiety. Looking for peer support.",
+          isAnonymous: false,
+          role: "patient" as const,
+          location: "Mumbai, Maharashtra",
+          createdAt: new Date("2024-01-01"),
+        },
+        "counselor@demo.com": {
+          id: "demo_counselor_001",
+          email: "counselor@demo.com",
+          displayName: "Dr. प्रिया पटेल (Dr. Priya Patel)",
+          bio: "Licensed clinical psychologist with 8 years experience. Specializing in anxiety and depression.",
+          isAnonymous: false,
+          role: "counselor" as const,
+          location: "Delhi, India",
+          createdAt: new Date("2023-06-15"),
+        },
+        "admin@demo.com": {
+          id: "demo_admin_001",
+          email: "admin@demo.com",
+          displayName: "MindConnect Admin",
+          bio: "Platform administrator ensuring safe and supportive community environment.",
+          isAnonymous: false,
+          role: "admin" as const,
+          location: "Bangalore, Karnataka",
+          createdAt: new Date("2023-01-01"),
+        },
+      }
+
+      const demoUser = demoUsers[email as keyof typeof demoUsers]
+      if (demoUser && password === "password123") {
+        localStorage.setItem("mindconnect_user", JSON.stringify(demoUser))
+        setUser(demoUser)
+        return
+      }
+
       const mockUser: User = {
         id: "user_" + Date.now(),
         email,
         displayName: "Anonymous User",
         isAnonymous: true,
+        role: "patient",
         createdAt: new Date(),
       }
 
@@ -81,14 +122,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signUp = async (userData: SignUpData) => {
     setIsLoading(true)
     try {
-      // TODO: Implement actual registration API call
-      // This is a mock implementation
       const newUser: User = {
         id: "user_" + Date.now(),
         email: userData.email,
         displayName: userData.displayName || "Anonymous User",
         bio: userData.bio,
         isAnonymous: !userData.displayName,
+        role: "patient",
         createdAt: new Date(),
       }
 

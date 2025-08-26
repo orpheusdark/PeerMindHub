@@ -1,16 +1,17 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Heart, Eye, EyeOff, Shield, AlertTriangle } from "lucide-react"
+import { Heart, Eye, EyeOff, Shield, AlertTriangle, Loader2 } from "lucide-react"
 import Link from "next/link"
+import { useAuth } from "@/components/auth/auth-context"
 
 export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false)
@@ -19,19 +20,30 @@ export default function SignInPage() {
     password: "",
     rememberMe: false,
   })
+  const [error, setError] = useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { signIn, isLoading } = useAuth()
+  const router = useRouter()
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: Implement authentication logic
-    console.log("Sign in attempt:", formData)
+    setError("")
+
+    try {
+      await signIn(formData.email, formData.password)
+      router.push("/dashboard")
+    } catch (err) {
+      setError("Invalid email or password. Please try again.")
+      console.error("Sign in failed:", err)
+    }
   }
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-6">
+      <div className="w-full max-w-md space-y-6 animate-fade-in">
         {/* Header */}
         <div className="text-center">
-          <Link href="/" className="inline-flex items-center space-x-2 mb-6">
+          <Link href="/" className="inline-flex items-center space-x-2 mb-6 hover-lift">
             <Heart className="h-8 w-8 text-primary" />
             <span className="font-bold text-2xl text-foreground">MindConnect</span>
           </Link>
@@ -40,22 +52,29 @@ export default function SignInPage() {
         </div>
 
         {/* Privacy Notice */}
-        <Alert className="border-primary/20 bg-primary/5">
+        <Alert className="border-primary/20 bg-primary/5 animate-slide-up">
           <Shield className="h-4 w-4 text-primary" />
           <AlertDescription className="text-sm">
-            Your privacy is protected. We use pseudonymous profiles to keep your identity safe while connecting you with
-            support.
+            <strong>Demo Platform:</strong> This is a demonstration platform. Your data is stored locally and no real
+            services are provided.
           </AlertDescription>
         </Alert>
 
         {/* Sign In Form */}
-        <Card>
+        <Card className="hover-lift">
           <CardHeader>
             <CardTitle>Sign In</CardTitle>
             <CardDescription>Enter your credentials to access your account</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
+              {error && (
+                <Alert className="border-destructive/20 bg-destructive/5">
+                  <AlertTriangle className="h-4 w-4 text-destructive" />
+                  <AlertDescription className="text-sm text-destructive">{error}</AlertDescription>
+                </Alert>
+              )}
+
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -65,6 +84,7 @@ export default function SignInPage() {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
+                  disabled={isLoading}
                 />
               </div>
 
@@ -78,6 +98,7 @@ export default function SignInPage() {
                     value={formData.password}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     required
+                    disabled={isLoading}
                   />
                   <Button
                     type="button"
@@ -85,6 +106,7 @@ export default function SignInPage() {
                     size="sm"
                     className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                     onClick={() => setShowPassword(!showPassword)}
+                    disabled={isLoading}
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </Button>
@@ -96,14 +118,22 @@ export default function SignInPage() {
                   id="remember"
                   checked={formData.rememberMe}
                   onCheckedChange={(checked) => setFormData({ ...formData, rememberMe: checked as boolean })}
+                  disabled={isLoading}
                 />
                 <Label htmlFor="remember" className="text-sm">
                   Remember me
                 </Label>
               </div>
 
-              <Button type="submit" className="w-full">
-                Sign In
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Signing In...
+                  </>
+                ) : (
+                  "Sign In"
+                )}
               </Button>
             </form>
 

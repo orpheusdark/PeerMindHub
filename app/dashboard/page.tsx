@@ -11,6 +11,56 @@ import Link from "next/link"
 function DashboardContent() {
   const { user } = useAuth()
 
+  const getLocalizedWelcome = () => {
+    if (user?.role === "counselor") {
+      return `Welcome back, ${user?.displayName || "Doctor"}`
+    }
+    return `Welcome back, ${user?.displayName || "Friend"}`
+  }
+
+  const getRecommendedResources = () => {
+    if (user?.location?.includes("Mumbai")) {
+      return [
+        {
+          title: "Mumbai में Anxiety Support Groups",
+          description: "Local support groups and meetups in Mumbai area",
+          type: "local",
+        },
+        {
+          title: "Marathi में Mental Health Resources",
+          description: "मराठी भाषेत मानसिक आरोग्य संसाधने",
+          type: "language",
+        },
+      ]
+    } else if (user?.location?.includes("Delhi")) {
+      return [
+        {
+          title: "Delhi NCR Therapy Centers",
+          description: "Affordable therapy options in Delhi and surrounding areas",
+          type: "local",
+        },
+        {
+          title: "Hindi में Self-Help Resources",
+          description: "हिंदी में स्व-सहायता संसाधन और गाइड",
+          type: "language",
+        },
+      ]
+    }
+
+    return [
+      {
+        title: "Understanding Anxiety in Indian Context",
+        description: "How cultural factors affect anxiety and coping strategies",
+        type: "cultural",
+      },
+      {
+        title: "Family Therapy Resources",
+        description: "Dealing with mental health in joint family systems",
+        type: "family",
+      },
+    ]
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
@@ -31,11 +81,8 @@ function DashboardContent() {
               <Link href="/tools" className="text-muted-foreground hover:text-primary transition-colors">
                 Tools
               </Link>
-              <Link href="/privacy" className="text-muted-foreground hover:text-primary transition-colors">
-                Privacy
-              </Link>
-              <Link href="/safety-plan" className="text-muted-foreground hover:text-primary transition-colors">
-                Safety Plan
+              <Link href="/crisis-helplines" className="text-muted-foreground hover:text-primary transition-colors">
+                Crisis Help
               </Link>
               <Link href="/profile" className="text-muted-foreground hover:text-primary transition-colors">
                 Profile
@@ -49,9 +96,11 @@ function DashboardContent() {
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Welcome Header */}
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-foreground mb-2">Welcome back, {user?.displayName || "Friend"}</h1>
+            <h1 className="text-3xl font-bold text-foreground mb-2">{getLocalizedWelcome()}</h1>
             <p className="text-lg text-muted-foreground">
-              Your mental health journey continues here. How can we support you today?
+              {user?.role === "counselor"
+                ? "Ready to support your community today?"
+                : "Your mental health journey continues here. How can we support you today?"}
             </p>
           </div>
 
@@ -94,7 +143,7 @@ function DashboardContent() {
             </Card>
 
             <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-              <Link href="/resources">
+              <Link href="/crisis-helplines">
                 <CardHeader className="text-center pb-2">
                   <BookOpen className="h-8 w-8 text-primary mx-auto mb-2" />
                   <CardTitle className="text-lg">Find Help</CardTitle>
@@ -124,7 +173,9 @@ function DashboardContent() {
                       <TrendingUp className="h-5 w-5 text-primary" />
                       <div className="flex-1">
                         <p className="font-medium text-sm">Mood tracked</p>
-                        <p className="text-xs text-muted-foreground">Yesterday - Feeling good</p>
+                        <p className="text-xs text-muted-foreground">
+                          Yesterday - आज अच्छा लग रहा है (Feeling good today)
+                        </p>
                       </div>
                       <Badge variant="secondary" className="bg-primary/10 text-primary">
                         Good
@@ -134,20 +185,20 @@ function DashboardContent() {
                       <Wind className="h-5 w-5 text-primary" />
                       <div className="flex-1">
                         <p className="font-medium text-sm">Breathing exercise completed</p>
-                        <p className="text-xs text-muted-foreground">2 days ago - 4-7-8 breathing</p>
+                        <p className="text-xs text-muted-foreground">2 days ago - प्राणायाम (Pranayama) session</p>
                       </div>
                       <Badge variant="secondary" className="bg-primary/10 text-primary">
-                        4 min
+                        8 min
                       </Badge>
                     </div>
                     <div className="flex items-center space-x-3 p-3 border rounded-lg">
                       <MessageCircle className="h-5 w-5 text-primary" />
                       <div className="flex-1">
                         <p className="font-medium text-sm">Forum post</p>
-                        <p className="text-xs text-muted-foreground">3 days ago - Anxiety Support</p>
+                        <p className="text-xs text-muted-foreground">3 days ago - कार्यक्षेत्र तनाव (Workplace Stress)</p>
                       </div>
                       <Badge variant="secondary" className="bg-primary/10 text-primary">
-                        5 replies
+                        12 replies
                       </Badge>
                     </div>
                   </div>
@@ -164,30 +215,20 @@ function DashboardContent() {
                     <Star className="h-5 w-5 text-primary" />
                     <span>Recommended for You</span>
                   </CardTitle>
-                  <CardDescription>Based on your interests and activity</CardDescription>
+                  <CardDescription>Based on your location and preferences</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="p-4 border rounded-lg">
-                      <h4 className="font-medium mb-2">Understanding Anxiety</h4>
-                      <p className="text-sm text-muted-foreground mb-3">
-                        Comprehensive guide to managing anxiety disorders
-                      </p>
-                      <Button size="sm" variant="outline" className="bg-transparent">
-                        Read Article
-                        <ArrowRight className="h-3 w-3 ml-1" />
-                      </Button>
-                    </div>
-                    <div className="p-4 border rounded-lg">
-                      <h4 className="font-medium mb-2">Dr. Priya Sharma</h4>
-                      <p className="text-sm text-muted-foreground mb-3">
-                        Clinical Psychologist in Vadodara specializing in anxiety
-                      </p>
-                      <Button size="sm" variant="outline" className="bg-transparent">
-                        View Profile
-                        <ArrowRight className="h-3 w-3 ml-1" />
-                      </Button>
-                    </div>
+                    {getRecommendedResources().map((resource, index) => (
+                      <div key={index} className="p-4 border rounded-lg">
+                        <h4 className="font-medium mb-2">{resource.title}</h4>
+                        <p className="text-sm text-muted-foreground mb-3">{resource.description}</p>
+                        <Button size="sm" variant="outline" className="bg-transparent">
+                          Learn More
+                          <ArrowRight className="h-3 w-3 ml-1" />
+                        </Button>
+                      </div>
+                    ))}
                   </div>
                 </CardContent>
               </Card>
@@ -204,19 +245,19 @@ function DashboardContent() {
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Mood entries</span>
-                    <span className="font-semibold">5/7 days</span>
+                    <span className="font-semibold">6/7 days</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Breathing sessions</span>
-                    <span className="font-semibold">3 sessions</span>
+                    <span className="font-semibold">4 sessions</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Forum interactions</span>
-                    <span className="font-semibold">2 posts</span>
+                    <span className="font-semibold">3 posts</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Streak</span>
-                    <span className="font-semibold text-primary">12 days</span>
+                    <span className="font-semibold text-primary">18 days</span>
                   </div>
                 </CardContent>
               </Card>
@@ -231,17 +272,17 @@ function DashboardContent() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="text-center p-4 border rounded-lg">
-                    <div className="text-2xl font-bold text-primary mb-1">234</div>
+                    <div className="text-2xl font-bold text-primary mb-1">456</div>
                     <p className="text-sm text-muted-foreground">Members online now</p>
                   </div>
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span>New posts today:</span>
-                      <span className="font-medium">89</span>
+                      <span className="font-medium">127</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span>Active discussions:</span>
-                      <span className="font-medium">156</span>
+                      <span className="font-medium">234</span>
                     </div>
                   </div>
                   <Button variant="outline" className="w-full bg-transparent">
@@ -258,9 +299,9 @@ function DashboardContent() {
                 </CardHeader>
                 <CardContent>
                   <blockquote className="text-sm italic text-muted-foreground mb-3">
-                    "You are braver than you believe, stronger than you seem, and smarter than you think."
+                    "मन के हारे हार है, मन के जीते जीत। (The mind that gives up loses, the mind that perseveres wins.)"
                   </blockquote>
-                  <p className="text-xs text-muted-foreground">- A.A. Milne</p>
+                  <p className="text-xs text-muted-foreground">- Sant Tulsidas</p>
                 </CardContent>
               </Card>
             </div>
