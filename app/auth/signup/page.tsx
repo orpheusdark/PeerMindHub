@@ -1,8 +1,9 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { useAuth } from "@/components/auth/auth-context"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -10,12 +11,15 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Textarea } from "@/components/ui/textarea"
-import { Heart, Eye, EyeOff, Shield, AlertTriangle, Info } from "lucide-react"
+import { Heart, Eye, EyeOff, Shield, AlertTriangle, Info, Loader2 } from "lucide-react"
 import Link from "next/link"
 
 export default function SignUpPage() {
+  const router = useRouter()
+  const { signUp, isLoading } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [error, setError] = useState("")
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -27,10 +31,40 @@ export default function SignUpPage() {
     consentToDataUse: false,
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: Implement registration logic
-    console.log("Sign up attempt:", formData)
+    setError("")
+
+    // Validation
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match")
+      return
+    }
+
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters long")
+      return
+    }
+
+    if (!formData.agreeToTerms || !formData.agreeToPrivacy || !formData.consentToDataUse) {
+      setError("Please agree to all terms and conditions")
+      return
+    }
+
+    try {
+      await signUp({
+        email: formData.email,
+        password: formData.password,
+        displayName: formData.displayName,
+        bio: formData.bio,
+      })
+
+      // Redirect to dashboard after successful signup
+      router.push("/dashboard")
+    } catch (err) {
+      setError("Failed to create account. Please try again.")
+      console.error("Signup error:", err)
+    }
   }
 
   return (
@@ -46,14 +80,44 @@ export default function SignUpPage() {
           <p className="text-muted-foreground mt-2">Join our supportive community with complete privacy protection</p>
         </div>
 
+        {/* Demo Login Notice */}
+        <Alert className="border-blue-200 bg-blue-50">
+          <Info className="h-4 w-4 text-blue-600" />
+          <AlertDescription>
+            <strong>Demo Testing:</strong> For quick testing, you can use these demo accounts or create a new one:
+            <div className="mt-2 space-y-1 text-sm">
+              <div>
+                <strong>Patient:</strong> patient@demo.com / password123
+              </div>
+              <div>
+                <strong>Counselor:</strong> counselor@demo.com / password123
+              </div>
+              <div>
+                <strong>Admin:</strong> admin@demo.com / password123
+              </div>
+            </div>
+            <Link href="/auth/signin" className="inline-block mt-2 text-blue-600 hover:underline font-medium">
+              → Go to Sign In for quick demo access
+            </Link>
+          </AlertDescription>
+        </Alert>
+
         {/* Privacy Notice */}
         <Alert className="border-primary/20 bg-primary/5">
           <Shield className="h-4 w-4 text-primary" />
           <AlertDescription>
-            <strong>Your Privacy Matters:</strong> We use pseudonymous profiles to protect your identity. Your real name
-            is never required for peer interactions, and all data is encrypted and secure.
+            <strong>Demo Platform:</strong> This is a demonstration platform. Your data is stored locally and no real
+            services are provided.
           </AlertDescription>
         </Alert>
+
+        {/* Error Alert */}
+        {error && (
+          <Alert className="border-destructive/20 bg-destructive/5">
+            <AlertTriangle className="h-4 w-4 text-destructive" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
 
         {/* Sign Up Form */}
         <Card>
@@ -74,6 +138,7 @@ export default function SignUpPage() {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     required
+                    disabled={isLoading}
                   />
                   <p className="text-xs text-muted-foreground">
                     Used only for account recovery and important notifications
@@ -90,6 +155,7 @@ export default function SignUpPage() {
                       value={formData.password}
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                       required
+                      disabled={isLoading}
                     />
                     <Button
                       type="button"
@@ -97,6 +163,7 @@ export default function SignUpPage() {
                       size="sm"
                       className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                       onClick={() => setShowPassword(!showPassword)}
+                      disabled={isLoading}
                     >
                       {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </Button>
@@ -113,6 +180,7 @@ export default function SignUpPage() {
                       value={formData.confirmPassword}
                       onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                       required
+                      disabled={isLoading}
                     />
                     <Button
                       type="button"
@@ -120,6 +188,7 @@ export default function SignUpPage() {
                       size="sm"
                       className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      disabled={isLoading}
                     >
                       {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </Button>
@@ -145,6 +214,7 @@ export default function SignUpPage() {
                     placeholder="Choose a pseudonym (e.g., SupportSeeker, MindfulJourney)"
                     value={formData.displayName}
                     onChange={(e) => setFormData({ ...formData, displayName: e.target.value })}
+                    disabled={isLoading}
                   />
                   <p className="text-xs text-muted-foreground">
                     This will be visible to other community members. You can change this anytime.
@@ -159,6 +229,7 @@ export default function SignUpPage() {
                     value={formData.bio}
                     onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                     rows={3}
+                    disabled={isLoading}
                   />
                   <p className="text-xs text-muted-foreground">
                     Keep it general - avoid personal identifying information
@@ -177,6 +248,7 @@ export default function SignUpPage() {
                       checked={formData.agreeToTerms}
                       onCheckedChange={(checked) => setFormData({ ...formData, agreeToTerms: checked as boolean })}
                       required
+                      disabled={isLoading}
                     />
                     <Label htmlFor="terms" className="text-sm leading-relaxed">
                       I agree to the{" "}
@@ -196,13 +268,14 @@ export default function SignUpPage() {
                       checked={formData.agreeToPrivacy}
                       onCheckedChange={(checked) => setFormData({ ...formData, agreeToPrivacy: checked as boolean })}
                       required
+                      disabled={isLoading}
                     />
                     <Label htmlFor="privacy" className="text-sm leading-relaxed">
                       I have read and agree to the{" "}
                       <Link href="/privacy" className="text-primary hover:underline">
                         Privacy Policy
                       </Link>{" "}
-                      (DPDPA 2023 compliant)
+                      (Demo platform - no real data collection)
                     </Label>
                   </div>
 
@@ -212,17 +285,24 @@ export default function SignUpPage() {
                       checked={formData.consentToDataUse}
                       onCheckedChange={(checked) => setFormData({ ...formData, consentToDataUse: checked as boolean })}
                       required
+                      disabled={isLoading}
                     />
                     <Label htmlFor="consent" className="text-sm leading-relaxed">
-                      I consent to the collection and processing of my data as described in the Privacy Policy,
-                      including pseudonymous profile creation and encrypted data storage
+                      I understand this is a demo platform and consent to local data storage for demonstration purposes
                     </Label>
                   </div>
                 </div>
               </div>
 
-              <Button type="submit" className="w-full" size="lg">
-                Create Account
+              <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Creating Account...
+                  </>
+                ) : (
+                  "Create Account"
+                )}
               </Button>
             </form>
           </CardContent>

@@ -10,75 +10,95 @@ import { ProtectedRoute } from "@/components/auth/protected-route"
 import { Heart, MessageCircle, Users, Clock, Search, Plus, Shield, AlertTriangle, TrendingUp } from "lucide-react"
 import Link from "next/link"
 
-// Mock data for forum categories and recent activity
 const forumCategories = [
   {
     id: "anxiety",
-    name: "Anxiety Support",
-    description: "Share experiences and coping strategies for anxiety disorders",
+    name: "चिंता सहायता (Anxiety Support)",
+    description: "चिंता विकारों के लिए अनुभव और सामना करने की रणनीतियां साझा करें",
     icon: "🌊",
-    postCount: 1247,
-    memberCount: 892,
+    postCount: 1847,
+    memberCount: 1292,
     lastActivity: "2 minutes ago",
     isActive: true,
   },
   {
     id: "depression",
-    name: "Depression Support",
-    description: "A safe space to discuss depression and mood disorders",
+    name: "अवसाद सहायता (Depression Support)",
+    description: "अवसाद और मूड विकारों पर चर्चा के लिए एक सुरक्षित स्थान",
     icon: "🌱",
-    postCount: 2156,
-    memberCount: 1340,
+    postCount: 2756,
+    memberCount: 1840,
     lastActivity: "5 minutes ago",
     isActive: true,
   },
   {
     id: "stress",
-    name: "Stress Management",
-    description: "Techniques and support for managing daily stress",
+    name: "तनाव प्रबंधन (Stress Management)",
+    description: "दैनिक तनाव को संभालने की तकनीकें और सहायता",
     icon: "🧘",
-    postCount: 834,
-    memberCount: 567,
+    postCount: 1234,
+    memberCount: 867,
     lastActivity: "12 minutes ago",
     isActive: true,
   },
   {
-    id: "grief",
-    name: "Grief & Loss",
-    description: "Support for those dealing with loss and bereavement",
-    icon: "🕊️",
-    postCount: 456,
-    memberCount: 234,
-    lastActivity: "1 hour ago",
+    id: "family",
+    name: "पारिवारिक समस्याएं (Family Issues)",
+    description: "पारिवारिक रिश्तों और घरेलू समस्याओं के लिए सहायता",
+    icon: "👨‍👩‍👧‍👦",
+    postCount: 956,
+    memberCount: 634,
+    lastActivity: "8 minutes ago",
     isActive: true,
   },
   {
-    id: "lgbtq",
-    name: "LGBTQ+ Support",
-    description: "Mental health support for LGBTQ+ community members",
-    icon: "🏳️‍🌈",
-    postCount: 678,
-    memberCount: 445,
-    lastActivity: "30 minutes ago",
+    id: "work-stress",
+    name: "कार्यक्षेत्र तनाव (Workplace Stress)",
+    description: "नौकरी और करियर संबंधी तनाव की चर्चा",
+    icon: "💼",
+    postCount: 1123,
+    memberCount: 789,
+    lastActivity: "15 minutes ago",
+    isActive: true,
+  },
+  {
+    id: "students",
+    name: "छात्र सहायता (Student Support)",
+    description: "शैक्षणिक दबाव और करियर चिंताओं के लिए सहायता",
+    icon: "📚",
+    postCount: 1567,
+    memberCount: 1234,
+    lastActivity: "3 minutes ago",
+    isActive: true,
+  },
+  {
+    id: "women",
+    name: "महिला स्वास्थ्य (Women's Mental Health)",
+    description: "महिलाओं के मानसिक स्वास्थ्य के मुद्दों पर चर्चा",
+    icon: "👩",
+    postCount: 834,
+    memberCount: 567,
+    lastActivity: "20 minutes ago",
     isActive: true,
   },
   {
     id: "general",
-    name: "General Support",
-    description: "Open discussions about mental health and wellbeing",
+    name: "सामान्य चर्चा (General Discussion)",
+    description: "मानसिक स्वास्थ्य और कल्याण पर खुली चर्चा",
     icon: "💬",
-    postCount: 1890,
-    memberCount: 1567,
+    postCount: 2190,
+    memberCount: 1867,
     lastActivity: "1 minute ago",
     isActive: true,
   },
 ]
 
 const trendingTopics = [
-  { title: "Coping with work anxiety", replies: 23, category: "Anxiety Support" },
-  { title: "Morning routine for better mental health", replies: 45, category: "General Support" },
-  { title: "Dealing with seasonal depression", replies: 18, category: "Depression Support" },
-  { title: "Mindfulness techniques that actually work", replies: 67, category: "Stress Management" },
+  { title: "IIT/JEE की तैयारी में तनाव कैसे संभालें", replies: 43, category: "Student Support" },
+  { title: "Working from home में mental health कैसे maintain करें", replies: 67, category: "Workplace Stress" },
+  { title: "शादी के बाद depression - क्या करूं?", replies: 28, category: "Women's Mental Health" },
+  { title: "Parents के साथ mental health के बारे में कैसे बात करें", replies: 35, category: "Family Issues" },
+  { title: "Mumbai में affordable therapy options", replies: 52, category: "General Discussion" },
 ]
 
 function ForumsContent() {
@@ -106,6 +126,9 @@ function ForumsContent() {
               </Link>
               <Link href="/resources" className="text-muted-foreground hover:text-primary transition-colors">
                 Resources
+              </Link>
+              <Link href="/crisis-helplines" className="text-muted-foreground hover:text-primary transition-colors">
+                Crisis Help
               </Link>
               <Link href="/profile" className="text-muted-foreground hover:text-primary transition-colors">
                 Profile
@@ -245,19 +268,19 @@ function ForumsContent() {
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Total Posts</span>
-                  <span className="font-semibold">7,261</span>
+                  <span className="font-semibold">12,507</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Active Members</span>
-                  <span className="font-semibold">5,045</span>
+                  <span className="font-semibold">8,290</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Online Now</span>
-                  <span className="font-semibold text-primary">234</span>
+                  <span className="font-semibold text-primary">456</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Posts Today</span>
-                  <span className="font-semibold">89</span>
+                  <span className="font-semibold">127</span>
                 </div>
               </CardContent>
             </Card>
@@ -271,9 +294,11 @@ function ForumsContent() {
                   <p className="text-xs">
                     If you're in crisis, please contact emergency services or call a crisis helpline immediately.
                   </p>
-                  <Button size="sm" variant="destructive" className="w-full">
-                    Crisis Resources
-                  </Button>
+                  <Link href="/crisis-helplines">
+                    <Button size="sm" variant="destructive" className="w-full">
+                      Crisis Resources
+                    </Button>
+                  </Link>
                 </div>
               </AlertDescription>
             </Alert>

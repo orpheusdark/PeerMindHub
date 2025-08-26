@@ -4,74 +4,76 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(1 0 0);
+  /* Updated to soothing emerald-based color palette for mental health platform */
+  --background: oklch(0.99 0.005 162);
   --foreground: oklch(0.35 0.01 258);
-  --card: oklch(0.97 0.005 258);
+  --card: oklch(0.97 0.01 162);
   --card-foreground: oklch(0.35 0.01 258);
-  --popover: oklch(1 0 0);
+  --popover: oklch(0.99 0.005 162);
   --popover-foreground: oklch(0.35 0.01 258);
-  --primary: oklch(0.55 0.15 162);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.65 0.12 162);
-  --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.97 0.005 258);
-  --muted-foreground: oklch(0.35 0.01 258);
-  --accent: oklch(0.65 0.12 162);
-  --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.65 0.15 35);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.92 0.005 258);
-  --input: oklch(1 0 0);
-  --ring: oklch(0.55 0.15 162 / 0.5);
-  --chart-1: oklch(0.55 0.15 162);
-  --chart-2: oklch(0.65 0.12 162);
-  --chart-3: oklch(0.65 0.15 35);
-  --chart-4: oklch(0.7 0.15 35);
-  --chart-5: oklch(0.45 0.12 65);
-  --radius: 0.5rem;
-  --sidebar: oklch(0.97 0.005 258);
+  --primary: oklch(0.45 0.15 162);
+  --primary-foreground: oklch(0.99 0.005 162);
+  --secondary: oklch(0.55 0.12 162);
+  --secondary-foreground: oklch(0.99 0.005 162);
+  --muted: oklch(0.95 0.01 162);
+  --muted-foreground: oklch(0.45 0.01 258);
+  --accent: oklch(0.55 0.12 162);
+  --accent-foreground: oklch(0.99 0.005 162);
+  --destructive: oklch(0.55 0.15 35);
+  --destructive-foreground: oklch(0.99 0.005 162);
+  --border: oklch(0.9 0.01 162);
+  --input: oklch(0.99 0.005 162);
+  --ring: oklch(0.45 0.15 162 / 0.3);
+  --chart-1: oklch(0.55 0.12 162);
+  --chart-2: oklch(0.45 0.15 162);
+  --chart-3: oklch(0.45 0.01 258);
+  --chart-4: oklch(0.55 0.15 35);
+  --chart-5: oklch(0.99 0.005 162);
+  --radius: 0.75rem;
+  --sidebar: oklch(0.95 0.01 162);
   --sidebar-foreground: oklch(0.35 0.01 258);
-  --sidebar-primary: oklch(0.55 0.15 162);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.65 0.12 162);
-  --sidebar-accent-foreground: oklch(1 0 0);
-  --sidebar-border: oklch(0.92 0.005 258);
-  --sidebar-ring: oklch(0.55 0.15 162 / 0.5);
+  --sidebar-primary: oklch(0.45 0.15 162);
+  --sidebar-primary-foreground: oklch(0.99 0.005 162);
+  --sidebar-accent: oklch(0.55 0.12 162);
+  --sidebar-accent-foreground: oklch(0.99 0.005 162);
+  --sidebar-border: oklch(0.9 0.01 162);
+  --sidebar-ring: oklch(0.45 0.15 162 / 0.3);
 }
 
 .dark {
-  --background: oklch(0.1 0.005 258);
-  --foreground: oklch(0.95 0.005 258);
-  --card: oklch(0.15 0.005 258);
-  --card-foreground: oklch(0.95 0.005 258);
-  --popover: oklch(0.15 0.005 258);
-  --popover-foreground: oklch(0.95 0.005 258);
-  --primary: oklch(0.65 0.12 162);
-  --primary-foreground: oklch(0.1 0.005 258);
-  --secondary: oklch(0.25 0.01 258);
-  --secondary-foreground: oklch(0.95 0.005 258);
-  --muted: oklch(0.25 0.01 258);
-  --muted-foreground: oklch(0.7 0.005 258);
-  --accent: oklch(0.65 0.12 162);
-  --accent-foreground: oklch(0.1 0.005 258);
+  /* Updated dark mode colors to maintain soothing emerald theme */
+  --background: oklch(0.08 0.01 162);
+  --foreground: oklch(0.95 0.005 162);
+  --card: oklch(0.12 0.01 162);
+  --card-foreground: oklch(0.95 0.005 162);
+  --popover: oklch(0.12 0.01 162);
+  --popover-foreground: oklch(0.95 0.005 162);
+  --primary: oklch(0.55 0.12 162);
+  --primary-foreground: oklch(0.08 0.01 162);
+  --secondary: oklch(0.2 0.01 162);
+  --secondary-foreground: oklch(0.95 0.005 162);
+  --muted: oklch(0.2 0.01 162);
+  --muted-foreground: oklch(0.7 0.005 162);
+  --accent: oklch(0.55 0.12 162);
+  --accent-foreground: oklch(0.08 0.01 162);
   --destructive: oklch(0.55 0.15 35);
-  --destructive-foreground: oklch(0.95 0.005 258);
-  --border: oklch(0.25 0.01 258);
-  --input: oklch(0.25 0.01 258);
-  --ring: oklch(0.65 0.12 162 / 0.5);
-  --chart-1: oklch(0.65 0.12 162);
-  --chart-2: oklch(0.7 0.1 162);
-  --chart-3: oklch(0.65 0.15 35);
-  --chart-4: oklch(0.7 0.15 35);
-  --chart-5: oklch(0.55 0.12 65);
-  --sidebar: oklch(0.15 0.005 258);
-  --sidebar-foreground: oklch(0.95 0.005 258);
-  --sidebar-primary: oklch(0.65 0.12 162);
-  --sidebar-primary-foreground: oklch(0.1 0.005 258);
-  --sidebar-accent: oklch(0.25 0.01 258);
-  --sidebar-accent-foreground: oklch(0.95 0.005 258);
-  --sidebar-border: oklch(0.25 0.01 258);
-  --sidebar-ring: oklch(0.65 0.12 162 / 0.5);
+  --destructive-foreground: oklch(0.95 0.005 162);
+  --border: oklch(0.2 0.01 162);
+  --input: oklch(0.2 0.01 162);
+  --ring: oklch(0.55 0.12 162 / 0.3);
+  --chart-1: oklch(0.55 0.12 162);
+  --chart-2: oklch(0.6 0.1 162);
+  --chart-3: oklch(0.55 0.15 35);
+  --chart-4: oklch(0.6 0.15 35);
+  --chart-5: oklch(0.45 0.12 65);
+  --sidebar: oklch(0.12 0.01 162);
+  --sidebar-foreground: oklch(0.95 0.005 162);
+  --sidebar-primary: oklch(0.55 0.12 162);
+  --sidebar-primary-foreground: oklch(0.08 0.01 162);
+  --sidebar-accent: oklch(0.2 0.01 162);
+  --sidebar-accent-foreground: oklch(0.95 0.005 162);
+  --sidebar-border: oklch(0.2 0.01 162);
+  --sidebar-ring: oklch(0.55 0.12 162 / 0.3);
 }
 
 @theme inline {
@@ -121,5 +123,76 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Added smooth animations and transitions for calming effect */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  * {
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+  }
+}
+
+/* Added custom animation classes for gentle interactions */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+
+  .animate-gentle-bounce {
+    animation: gentleBounce 0.4s ease-out;
+  }
+
+  .hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gentleBounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-4px);
+  }
+  60% {
+    transform: translateY(-2px);
   }
 }
