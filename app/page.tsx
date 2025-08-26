@@ -25,7 +25,7 @@ export default function HomePage() {
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center space-x-2 hover-lift">
               <Heart className="h-8 w-8 text-primary" />
-              <span className="font-bold text-xl text-foreground">MindConnect</span>
+              <span className="font-bold text-xl text-foreground">PeerMindHub</span>
             </Link>
             <div className="hidden md:flex items-center space-x-8">
               <Link href="#features" className="text-muted-foreground hover:text-primary transition-colors">
@@ -356,7 +356,7 @@ export default function HomePage() {
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <Heart className="h-6 w-6 text-primary" />
-                <span className="font-bold text-lg">MindConnect</span>
+                <span className="font-bold text-lg">PeerMindHub</span>
               </div>
               <p className="text-muted-foreground">Breaking barriers to mental health support across India.</p>
             </div>
@@ -422,7 +422,8 @@ export default function HomePage() {
             </div>
           </div>
           <div className="border-t border-border mt-8 pt-8 text-center text-muted-foreground">
-            <p>&copy; 2024 MindConnect. All rights reserved. | Compliant with MHCA 2017 & DPDPA 2023</p>
+            <p>&copy; 2024 PeerMindHub. All rights reserved. | Compliant with MHCA 2017 & DPDPA 2023</p>
+            <p className="mt-2">Made with ❤️ orpheusdark</p>
           </div>
         </div>
       </footer>

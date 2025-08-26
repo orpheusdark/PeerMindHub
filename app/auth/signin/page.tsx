@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Heart, Eye, EyeOff, Shield, AlertTriangle, Loader2 } from "lucide-react"
+import { Heart, Eye, EyeOff, Shield, AlertTriangle, Loader2, Users } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "@/components/auth/auth-context"
 
@@ -38,6 +38,10 @@ export default function SignInPage() {
     }
   }
 
+  const fillDemoCredentials = (email: string, password: string) => {
+    setFormData({ ...formData, email, password })
+  }
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-6 animate-fade-in">
@@ -45,7 +49,7 @@ export default function SignInPage() {
         <div className="text-center">
           <Link href="/" className="inline-flex items-center space-x-2 mb-6 hover-lift">
             <Heart className="h-8 w-8 text-primary" />
-            <span className="font-bold text-2xl text-foreground">MindConnect</span>
+            <span className="font-bold text-2xl text-foreground">PeerMindHub</span>
           </Link>
           <h1 className="text-2xl font-bold text-foreground">Welcome Back</h1>
           <p className="text-muted-foreground mt-2">Sign in to your secure, anonymous account</p>
@@ -59,6 +63,73 @@ export default function SignInPage() {
             services are provided.
           </AlertDescription>
         </Alert>
+
+        <Card className="border-secondary/20 bg-secondary/5">
+          <CardHeader className="pb-3">
+            <div className="flex items-center space-x-2">
+              <Users className="h-4 w-4 text-secondary" />
+              <CardTitle className="text-base">Demo Testing</CardTitle>
+            </div>
+            <CardDescription className="text-sm">
+              For quick testing, you can use these demo accounts or create a new one:
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium">Patient: patient@demo.com / password123</p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => fillDemoCredentials("patient@demo.com", "password123")}
+                  disabled={isLoading}
+                  className="text-xs"
+                >
+                  Use
+                </Button>
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium">Counselor: counselor@demo.com / password123</p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => fillDemoCredentials("counselor@demo.com", "password123")}
+                  disabled={isLoading}
+                  className="text-xs"
+                >
+                  Use
+                </Button>
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium">Admin: admin@demo.com / password123</p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => fillDemoCredentials("admin@demo.com", "password123")}
+                  disabled={isLoading}
+                  className="text-xs"
+                >
+                  Use
+                </Button>
+              </div>
+            </div>
+            <div className="pt-2 border-t border-border">
+              <p className="text-xs text-muted-foreground">
+                →{" "}
+                <Link href="/auth/signup" className="text-primary hover:underline">
+                  Go to Sign Up
+                </Link>{" "}
+                for quick demo access
+              </p>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Sign In Form */}
         <Card className="hover-lift">

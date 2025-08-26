@@ -6,8 +6,8 @@ import { AuthProvider } from "@/components/auth/auth-context"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "v0 App",
-  description: "Created with v0",
+  title: "PeerMindHub",
+  description: "Your Safe Space for Mental Health Support - Breaking barriers to mental health support across India",
   generator: "v0.app",
 }
 
