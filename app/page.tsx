@@ -422,7 +422,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="border-t border-border mt-8 pt-8 text-center text-muted-foreground">
-            <p>&copy; 2024 PeerMindHub. All rights reserved. | Compliant with MHCA 2017 & DPDPA 2023</p>
+            <p>&copy; 2026 PeerMindHub. All rights reserved. | Compliant with MHCA 2017 & DPDPA 2023</p>
             <p className="mt-2">Made with ❤️ orpheusdark</p>
           </div>
         </div>

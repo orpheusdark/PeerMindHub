@@ -7,7 +7,7 @@ import "./globals.css"
 
 export const metadata: Metadata = {
   title: "PeerMindHub",
-  description: "Your Safe Space for Mental Health Support - Breaking barriers to mental health support across India",
+  description: "AI Powered Student Mental Wellness Platform",
   generator: "v0.app",
 }
 
