@@ -21,6 +21,10 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="FleetAI Backend MVP", version="1.0.0")
 
+@app.get("/")
+def read_root():
+    return {"status": "ok", "message": "PeerMindHub API is running successfully!"}
+
 # Setup CORS
 app.add_middleware(
     CORSMiddleware,
