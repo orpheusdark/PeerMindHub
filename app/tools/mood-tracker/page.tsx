@@ -1,15 +1,16 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { ProtectedRoute } from "@/components/auth/protected-route"
 import { Heart, TrendingUp, Calendar, ArrowLeft, Save, BarChart3, LineChart } from "lucide-react"
 import Link from "next/link"
+import { api, getAuthToken } from "@/lib/api"
 
 // Mock data for mood history
-const moodHistory = [
+const initialMoodHistory = [
   { date: "2024-01-15", mood: 4, note: "Had a great day at work, feeling accomplished" },
   { date: "2024-01-14", mood: 3, note: "Okay day, some stress but manageable" },
   { date: "2024-01-13", mood: 2, note: "Feeling a bit low, weather was gloomy" },
@@ -31,6 +32,27 @@ function MoodTrackerContent() {
   const [selectedMood, setSelectedMood] = useState<number | null>(null)
   const [moodNote, setMoodNote] = useState("")
   const [selectedFactors, setSelectedFactors] = useState<string[]>([])
+  const [moodHistory, setMoodHistory] = useState<any[]>(initialMoodHistory)
+
+  
+  useEffect(() => {
+    const fetchMoods = async () => {
+      if (getAuthToken()) {
+        try {
+          const data = await api.get("/moods")
+          const formatted = data.map((d: any) => ({
+            date: new Date(d.created_at).toISOString().split('T')[0],
+            mood: d.intensity,
+            note: d.note
+          }))
+          if(formatted.length > 0) setMoodHistory(formatted)
+        } catch (e) {
+          console.error(e)
+        }
+      }
+    }
+    fetchMoods()
+  }, [])
 
   const factors = [
     "Work/School",
@@ -55,16 +77,30 @@ function MoodTrackerContent() {
     setSelectedFactors((prev) => (prev.includes(factor) ? prev.filter((f) => f !== factor) : [...prev, factor]))
   }
 
-  const handleSaveMood = () => {
-    // TODO: Implement mood saving logic
-    console.log("Saving mood:", { mood: selectedMood, note: moodNote, factors: selectedFactors })
-    // Reset form
+  const handleSaveMood = async () => {
+    try {
+      if (getAuthToken()) {
+        await api.post("/moods", {
+          mood: moodLabels[selectedMood as keyof typeof moodLabels].label,
+          intensity: selectedMood,
+          note: moodNote
+        })
+        const newEntry = { date: new Date().toISOString().split('T')[0], mood: selectedMood, note: moodNote }
+        setMoodHistory([newEntry, ...moodHistory])
+      } else {
+        const newEntry = { date: new Date().toISOString().split('T')[0], mood: selectedMood, note: moodNote }
+        setMoodHistory([newEntry, ...moodHistory])
+      }
+    } catch (e) {
+      console.error(e)
+    }
+
     setSelectedMood(null)
     setMoodNote("")
     setSelectedFactors([])
   }
 
-  const averageMood = moodHistory.reduce((sum, entry) => sum + entry.mood, 0) / moodHistory.length
+  const averageMood = moodHistory.length > 0 ? moodHistory.reduce((sum, entry) => sum + entry.mood, 0) / moodHistory.length : 0
 
   return (
     <div className="min-h-screen bg-background">
@@ -187,10 +223,10 @@ function MoodTrackerContent() {
                     {moodHistory.slice(0, 5).map((entry, index) => (
                       <div key={index} className="flex items-start space-x-4 p-4 border rounded-lg">
                         <div className="flex items-center space-x-2">
-                          <span className="text-2xl">{moodLabels[entry.mood as keyof typeof moodLabels].emoji}</span>
+                          <span className="text-2xl">{moodLabels[(entry.mood || 3) as keyof typeof moodLabels]?.emoji || "😐"}</span>
                           <div>
                             <p className="font-medium text-sm">
-                              {moodLabels[entry.mood as keyof typeof moodLabels].label}
+                              {moodLabels[(entry.mood || 3) as keyof typeof moodLabels]?.label || "Okay"}
                             </p>
                             <p className="text-xs text-muted-foreground">{entry.date}</p>
                           </div>
