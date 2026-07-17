@@ -6,7 +6,8 @@ import os
 import google.generativeai as genai
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
-from database import engine, Base, get_db
+from database import engine, Base, get_db, SessionLocal
+from contextlib import asynccontextmanager
 import models
 import schemas
 from core.security import (
@@ -19,7 +20,28 @@ from datetime import timedelta
 # Create all database tables
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="FleetAI Backend MVP", version="1.0.0")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Seed demo users if they don't exist
+    db = SessionLocal()
+    try:
+        demo_users = [
+            {"name": "Patient User", "email": "patient@demo.com", "password": "password123"},
+            {"name": "Counselor User", "email": "counselor@demo.com", "password": "password123"},
+            {"name": "Admin User", "email": "admin@demo.com", "password": "password123"},
+        ]
+        for user_data in demo_users:
+            if not db.query(models.User).filter(models.User.email == user_data["email"]).first():
+                hashed_pw = get_password_hash(user_data["password"])
+                db.add(models.User(name=user_data["name"], email=user_data["email"], hashed_password=hashed_pw))
+        db.commit()
+    except Exception as e:
+        print(f"Error seeding demo users: {e}")
+    finally:
+        db.close()
+    yield
+
+app = FastAPI(title="FleetAI Backend MVP", version="1.0.0", lifespan=lifespan)
 
 @app.get("/")
 def read_root():
