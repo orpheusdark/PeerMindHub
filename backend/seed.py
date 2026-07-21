@@ -21,8 +21,8 @@ def seed_db():
         print("Seeding Users...")
         # 1. Main Demo User
         rahul = models.User(
-            name="Rahul Sharma",
-            email="rahul@demo.com",
+            name="Testing User",
+            email="testing@demo.com",
             hashed_password=get_password_hash("password123"),
             bio="Preparing for semester exams and placements.",
             university="Fictional Engineering University",
