@@ -12,29 +12,29 @@ import Link from "next/link"
 
 const forumCategories = [
   {
-    id: "anxiety",
-    name: "चिंता सहायता (Anxiety Support)",
-    description: "चिंता विकारों के लिए अनुभव और सामना करने की रणनीतियां साझा करें",
-    icon: "🌊",
-    postCount: 1847,
-    memberCount: 1292,
+    id: "placements",
+    name: "Placement & Careers",
+    description: "Discuss OAs, interviews, resume reviews, and off-campus jobs",
+    icon: "💼",
+    postCount: 3847,
+    memberCount: 2292,
     lastActivity: "2 minutes ago",
     isActive: true,
   },
   {
-    id: "depression",
-    name: "अवसाद सहायता (Depression Support)",
-    description: "अवसाद और मूड विकारों पर चर्चा के लिए एक सुरक्षित स्थान",
-    icon: "🌱",
+    id: "academics",
+    name: "Exams & Academics",
+    description: "Semester exams, backlogs, attendance, and study tips",
+    icon: "📚",
     postCount: 2756,
     memberCount: 1840,
     lastActivity: "5 minutes ago",
     isActive: true,
   },
   {
-    id: "stress",
-    name: "तनाव प्रबंधन (Stress Management)",
-    description: "दैनिक तनाव को संभालने की तकनीकें और सहायता",
+    id: "wellness",
+    name: "Mental Wellness",
+    description: "Anxiety, burnout, imposter syndrome, and coping strategies",
     icon: "🧘",
     postCount: 1234,
     memberCount: 867,
@@ -42,63 +42,43 @@ const forumCategories = [
     isActive: true,
   },
   {
-    id: "family",
-    name: "पारिवारिक समस्याएं (Family Issues)",
-    description: "पारिवारिक रिश्तों और घरेलू समस्याओं के लिए सहायता",
-    icon: "👨‍👩‍👧‍👦",
+    id: "hostel",
+    name: "Hostel Life",
+    description: "Mess food, noisy roommates, homesickness, and survival tips",
+    icon: "🏠",
     postCount: 956,
     memberCount: 634,
     lastActivity: "8 minutes ago",
     isActive: true,
   },
   {
-    id: "work-stress",
-    name: "कार्यक्षेत्र तनाव (Workplace Stress)",
-    description: "नौकरी और करियर संबंधी तनाव की चर्चा",
-    icon: "💼",
-    postCount: 1123,
-    memberCount: 789,
-    lastActivity: "15 minutes ago",
+    id: "coding",
+    name: "Coding & Hackathons",
+    description: "LeetCode, open source, projects, and hackathon teams",
+    icon: "💻",
+    postCount: 4123,
+    memberCount: 3789,
+    lastActivity: "1 minute ago",
     isActive: true,
   },
   {
-    id: "students",
-    name: "छात्र सहायता (Student Support)",
-    description: "शैक्षणिक दबाव और करियर चिंताओं के लिए सहायता",
-    icon: "📚",
+    id: "student-life",
+    name: "Student Life",
+    description: "Clubs, fests, hobbies, and balancing college life",
+    icon: "🎸",
     postCount: 1567,
     memberCount: 1234,
     lastActivity: "3 minutes ago",
     isActive: true,
-  },
-  {
-    id: "women",
-    name: "महिला स्वास्थ्य (Women's Mental Health)",
-    description: "महिलाओं के मानसिक स्वास्थ्य के मुद्दों पर चर्चा",
-    icon: "👩",
-    postCount: 834,
-    memberCount: 567,
-    lastActivity: "20 minutes ago",
-    isActive: true,
-  },
-  {
-    id: "general",
-    name: "सामान्य चर्चा (General Discussion)",
-    description: "मानसिक स्वास्थ्य और कल्याण पर खुली चर्चा",
-    icon: "💬",
-    postCount: 2190,
-    memberCount: 1867,
-    lastActivity: "1 minute ago",
-    isActive: true,
-  },
+  }
 ]
 
 const trendingTopics = [
-  { title: "IIT/JEE की तैयारी में तनाव कैसे संभालें", replies: 43, category: "Student Support" },
-  { title: "Working from home में mental health कैसे maintain करें", replies: 67, category: "Workplace Stress" },
-  { title: "शादी के बाद depression - क्या करूं?", replies: 28, category: "Women's Mental Health" },
-  { title: "Parents के साथ mental health के बारे में कैसे बात करें", replies: 35, category: "Family Issues" },
-  { title: "Mumbai में affordable therapy options", replies: 52, category: "General Discussion" },
+  { title: "Rejected after 4 rounds at Google.", replies: 43, category: "Placement & Careers", id: "placements" },
+  { title: "My attendance is 62%. Will medical certificates work?", replies: 67, category: "Exams & Academics", id: "academics" },
+  { title: "Deleted LinkedIn for a month. Best decision ever.", replies: 28, category: "Mental Wellness", id: "wellness" },
+  { title: "My roommate plays Valorant till 3 AM screaming.", replies: 35, category: "Hostel Life", id: "hostel" },
+  { title: "I solved 400 LC questions and still blanked in OA", replies: 52, category: "Coding & Hackathons", id: "coding" },
 ]
 
 function ForumsContent() {
@@ -248,7 +228,7 @@ function ForumsContent() {
               <CardContent className="space-y-3">
                 {trendingTopics.map((topic, index) => (
                   <div key={index} className="border-b border-border last:border-b-0 pb-3 last:pb-0">
-                    <Link href="/forums/general" className="block hover:text-primary transition-colors">
+                    <Link href={`/forums/${topic.id}`} className="block hover:text-primary transition-colors">
                       <h4 className="font-medium text-sm mb-1">{topic.title}</h4>
                       <div className="flex items-center justify-between text-xs text-muted-foreground">
                         <span>{topic.category}</span>

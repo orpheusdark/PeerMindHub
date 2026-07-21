@@ -13,9 +13,6 @@ def days_ago(days):
 def hours_ago(hours):
     return datetime.now(timezone.utc) - timedelta(hours=hours)
 
-def mins_ago(mins):
-    return datetime.now(timezone.utc) - timedelta(minutes=mins)
-
 def seed_db():
     print("Dropping and recreating all tables...")
     Base.metadata.drop_all(bind=engine)
@@ -38,50 +35,50 @@ def seed_db():
             created_at=days_ago(120)
         )
         db.add(main_user)
-        db.commit()
-        db.refresh(main_user)
         
-        # 2. Generate 35 Fictional Indian Students
+        # User personas: coding, wellness, hostel, academics, placements, general
         student_data = [
-            ("Aarav Mehta", "M", "VIT", "B.Tech CS", "3rd Year", "Burnt out Leetcoder. Living on caffeine."),
-            ("Rohan Patel", "M", "Nirma University", "B.Tech IT", "4th Year", "Placement season is destroying me."),
-            ("Ananya Shah", "F", "Manipal", "B.A. Psychology", "2nd Year", "Psych student trying to analyze myself."),
-            ("Sneha Iyer", "F", "Amity", "BBA", "1st Year", "Hostel life is so chaotic."),
-            ("Harsh Trivedi", "M", "DAIICT", "B.Tech ECE", "3rd Year", "Is ECE even worth it anymore?"),
-            ("Yash Desai", "M", "CHARUSAT", "B.Tech CS", "2nd Year", "Building startups, failing classes."),
-            ("Dev Patel", "M", "Parul University", "B.Tech Mechanical", "4th Year", "Core branch struggles are real."),
-            ("Priyanshi Sharma", "F", "PDEU", "B.Tech CS", "3rd Year", "Just trying to survive 75% attendance."),
-            ("Krishna Joshi", "M", "LDRP", "BCA", "2nd Year", "Frontend dev. CSS is making me cry."),
-            ("Aditya Singh", "M", "SRM", "B.Tech CS", "3rd Year", "DSA every day keeps the anxiety away (false)."),
-            ("Kunal Verma", "M", "Christ University", "B.Com", "1st Year", "Bangalore traffic is my biggest enemy."),
-            ("Simran Kaur", "F", "LPU", "B.Tech IT", "2nd Year", "Hackathon enthusiast."),
-            ("Siddharth Menon", "M", "VIT", "B.Tech CS", "4th Year", "Finally placed. AMA."),
-            ("Diya Kapoor", "F", "Manipal", "B.Tech ECE", "3rd Year", "Hostel food is a crime against humanity."),
-            ("Meera Reddy", "F", "Amity", "B.A. English", "2nd Year", "Romanticizing college life until exams hit."),
-            ("Aryan Rao", "M", "Nirma University", "B.Tech CS", "1st Year", "Should I start competitive programming?"),
-            ("Kavya Singh", "F", "SRM", "B.Tech Biotech", "4th Year", "Research papers and panic attacks."),
-            ("Arjun Kulkarni", "M", "Pune College", "B.Tech Mech", "3rd Year", "ATKT warrior."),
-            ("Neha Joshi", "F", "Delhi Tech", "B.Tech CS", "2nd Year", "Imposter syndrome hitting hard today."),
-            ("Ishita Nair", "F", "Christ University", "BBA", "3rd Year", "Presentations give me social anxiety."),
-            ("Karan Malhotra", "M", "VIT", "B.Tech CS", "4th Year", "Looking for off-campus opportunities."),
-            ("Ritika Jain", "F", "DAIICT", "B.Tech IT", "3rd Year", "Why is everyone getting internships except me?"),
-            ("Tanya Gupta", "F", "Manipal", "B.Arch", "2nd Year", "I haven't slept in 48 hours. Studio lyf."),
-            ("Vihaan Das", "M", "LPU", "B.Tech CS", "1st Year", "College is nothing like the movies."),
-            ("Zara Khan", "F", "Parul University", "B.Pharm", "3rd Year", "Too much syllabus, too little time."),
-            ("Kabir Singh", "M", "SRM", "B.Tech ECE", "2nd Year", "CGPA is just a number (crying inside)."),
-            ("Riya Sen", "F", "Amity", "B.Des", "4th Year", "Portfolio panic!"),
-            ("Varun Dhawan", "M", "CHARUSAT", "BCA", "1st Year", "Is it too late to change my major?"),
-            ("Pooja Bhatia", "F", "PDEU", "B.A. Economics", "2nd Year", "Math is destroying my mental peace."),
-            ("Rishi Kumar", "M", "VIT", "B.Tech Civil", "3rd Year", "Civil engg here. No placements. Help."),
-            ("Sanya Malhotra", "F", "LPU", "B.Sc Physics", "1st Year", "Homesick. I miss my mom's food."),
-            ("Rahul Dravid", "M", "Manipal", "B.Tech CS", "4th Year", "Done with college drama. Just want to graduate."),
-            ("Akash Varma", "M", "DAIICT", "B.Tech IT", "2nd Year", "My roommate is a nightmare."),
-            ("Nisha Agarwal", "F", "Christ University", "B.Com", "3rd Year", "Finance bro culture is toxic."),
-            ("Omkar Naik", "M", "Pune College", "B.Tech CS", "1st Year", "Failed my first mid-sem. Is it over?")
+            ("Aarav Mehta", "M", "VIT", "B.Tech CS", "3rd Year", "placements", "Grinding Leetcode. Living on caffeine."),
+            ("Sneha Iyer", "F", "Amity", "B.A. Psychology", "2nd Year", "wellness", "Mental wellness advocate. Here to listen."),
+            ("Harsh Trivedi", "M", "DAIICT", "B.Tech ECE", "3rd Year", "hostel", "Hostel stories and survival tips."),
+            ("Yash Desai", "M", "CHARUSAT", "B.Tech CS", "2nd Year", "coding", "Competitive programmer. CP is love."),
+            ("Priya Shah", "F", "Nirma University", "B.Tech IT", "4th Year", "academics", "Sharing study schedules and notes."),
+            ("Rohan Patel", "M", "Parul University", "B.Tech Mechanical", "4th Year", "coding", "Hackathon enthusiast."),
+            ("Ananya Desai", "F", "Manipal", "BBA", "2nd Year", "general", "Just trying to survive college."),
+            ("Dev Patel", "M", "PDEU", "B.Tech CS", "3rd Year", "placements", "Looking for off-campus opportunities."),
+            ("Priyanshi Sharma", "F", "LDRP", "BCA", "2nd Year", "academics", "Attendance is my biggest enemy."),
+            ("Krishna Joshi", "M", "SRM", "B.Tech CS", "3rd Year", "coding", "Frontend dev. CSS is making me cry."),
+            ("Aditya Singh", "M", "Christ University", "B.Com", "1st Year", "hostel", "Hostel food reviewer."),
+            ("Kunal Verma", "M", "LPU", "B.Tech IT", "2nd Year", "academics", "ATKT warrior."),
+            ("Simran Kaur", "F", "VIT", "B.Tech CS", "4th Year", "placements", "Finally placed. AMA."),
+            ("Siddharth Menon", "M", "Manipal", "B.Tech ECE", "3rd Year", "wellness", "Took a break from social media."),
+            ("Diya Kapoor", "F", "Amity", "B.A. English", "2nd Year", "general", "Romanticizing college life."),
+            ("Meera Reddy", "F", "Nirma University", "B.Tech CS", "1st Year", "coding", "Should I start CP?"),
+            ("Aryan Rao", "M", "SRM", "B.Tech Biotech", "4th Year", "academics", "Research papers and panic attacks."),
+            ("Kavya Singh", "F", "Pune College", "B.Tech Mech", "3rd Year", "wellness", "Imposter syndrome hitting hard."),
+            ("Arjun Kulkarni", "M", "Delhi Tech", "B.Tech CS", "2nd Year", "placements", "Failed my Google OA."),
+            ("Neha Joshi", "F", "Christ University", "BBA", "3rd Year", "general", "Presentations give me social anxiety."),
+            ("Ishita Nair", "F", "VIT", "B.Tech CS", "4th Year", "placements", "Cold emailing CEOs."),
+            ("Karan Malhotra", "M", "DAIICT", "B.Tech IT", "3rd Year", "wellness", "Why is everyone getting internships except me?"),
+            ("Ritika Jain", "F", "Manipal", "B.Arch", "2nd Year", "academics", "I haven't slept in 48 hours. Studio lyf."),
+            ("Tanya Gupta", "F", "LPU", "B.Tech CS", "1st Year", "hostel", "College is nothing like the movies."),
+            ("Vihaan Das", "M", "Parul University", "B.Pharm", "3rd Year", "academics", "Too much syllabus, too little time."),
+            ("Zara Khan", "F", "SRM", "B.Tech ECE", "2nd Year", "wellness", "CGPA is just a number (crying inside)."),
+            ("Kabir Singh", "M", "Amity", "B.Des", "4th Year", "general", "Portfolio panic!"),
+            ("Riya Sen", "F", "CHARUSAT", "BCA", "1st Year", "academics", "Is it too late to change my major?"),
+            ("Varun Dhawan", "M", "PDEU", "B.A. Economics", "2nd Year", "academics", "Math is destroying my mental peace."),
+            ("Pooja Bhatia", "F", "VIT", "B.Tech Civil", "3rd Year", "placements", "Civil engg here. No placements. Help."),
+            ("Rishi Kumar", "M", "LPU", "B.Sc Physics", "1st Year", "hostel", "Homesick. I miss my mom's food."),
+            ("Sanya Malhotra", "F", "Manipal", "B.Tech CS", "4th Year", "general", "Done with college drama."),
+            ("Rahul Dravid", "M", "DAIICT", "B.Tech IT", "2nd Year", "hostel", "My roommate is a nightmare."),
+            ("Akash Varma", "M", "Christ University", "B.Com", "3rd Year", "wellness", "Finance bro culture is toxic."),
+            ("Nisha Agarwal", "F", "Pune College", "B.Tech CS", "1st Year", "academics", "Failed my first mid-sem."),
+            ("Omkar Naik", "M", "VIT", "B.Tech CS", "2nd Year", "coding", "Just built a React Native app.")
         ]
         
         users = [main_user]
-        for name, gender, uni, course, year, bio in student_data:
+        user_personas = {}
+        for name, gender, uni, course, year, persona, bio in student_data:
             email = f"{name.split()[0].lower()}.{name.split()[-1].lower()}@demo.com"
             user = models.User(
                 name=name,
@@ -95,181 +92,198 @@ def seed_db():
             )
             db.add(user)
             users.append(user)
-        
+            
         db.commit()
         for u in users:
             db.refresh(u)
+            # Find the persona assigned in our mock data, default to general
+            persona = next((d[5] for d in student_data if d[0] == u.name), "general")
+            user_personas[u.id] = persona
             
-        print("Seeding Community Posts...")
+        print("Seeding Community Posts & Comments...")
         
-        post_data = [
+        posts_data = [
+            # PLACEMENTS
             {
-                "title": "I solved 400 LC questions and still got rejected.",
-                "content": "I honestly don't know what I'm doing anymore. I've been grinding Leetcode since 2nd year. Solved 400+ questions. Yesterday was the Amazon OA and I literally blanked out on the second question. Everyone around me is getting internships and I'm just sitting here feeling like an absolute failure. Is it even worth it? I think I'm just burnt out. 😭",
-                "category": "stress",
-                "tags": "placements, leetcode, burnout",
-                "author": "Aarav Mehta",
-                "views": 2945, "likes": 203, "time_offset": hours_ago(12)
+                "title": "Rejected after 4 rounds at Google.",
+                "content": "I cleared the OA, two technical rounds, and the Googlyness round. Today I got the automated rejection email. I prepared for 6 months. I feel completely empty right now. Should I even bother applying off-campus?",
+                "category": "placements", "tags": "rejections, google, interview", "author": "Arjun Kulkarni",
+                "views": 2945, "likes": 210, "time_offset": hours_ago(12),
+                "comments": [
+                    ("placements", "I also got rejected after the second technical round last month. It honestly felt terrible for a few days. Ask the recruiter for feedback!"),
+                    ("placements", "Bro same 😂 Well, not Google, but Amazon. It hurts but you have the skills if you made it that far."),
+                    ("wellness", "Take a few days off. Don't look at Leetcode. You're burnt out and grieving the opportunity."),
+                    ("coding", "Which graphs question did they ask in Round 2? Was it DP?"),
+                    ("placements", "Off-campus is tough right now but with Google on your resume (even as interview) startups will shortlist you easily.")
+                ]
             },
             {
-                "title": "My attendance is literally dead 😭",
-                "content": "My attendance is at 62% right now. The college says minimum 75% is required or I'll get a backlog. I've been so depressed lately I just couldn't get out of bed for morning classes. Has anyone survived with 60%? Will medical certificates work? Panicking rn.",
-                "category": "anxiety",
-                "tags": "attendance, college, panic",
-                "author": "Priyanshi Sharma",
-                "views": 842, "likes": 94, "time_offset": days_ago(2)
+                "title": "Is 6 LPA good for a fresher in Bangalore?",
+                "content": "I got a PPO from my internship but it's 6 LPA. My friends are holding out for 10+ LPA packages. But the market is so bad I'm scared to reject it. Can you survive in Bangalore on this?",
+                "category": "placements", "tags": "ppo, salary, bangalore", "author": "Simran Kaur",
+                "views": 1823, "likes": 57, "time_offset": days_ago(2),
+                "comments": [
+                    ("placements", "Accept it. A bird in the hand is worth two in the bush. Market is brutal right now."),
+                    ("hostel", "6 LPA in BLR? You'll be spending 15k just on a PG in Koramangala or HSR."),
+                    ("general", "Don't compare with your friends. 6 LPA is a great start. I know seniors who started at 3.5 and are at 20 now."),
+                    ("academics", "I rejected a 5 LPA offer to focus on GATE. Regretting it every single day."),
+                    ("placements", "Accept the offer and keep looking off-campus. You can always back out later (ethically questionable but everyone does it).")
+                ]
+            },
+            
+            # ACADEMICS
+            {
+                "title": "My attendance is 62%. Will medical certificates work?",
+                "content": "The college says minimum 75% is required or I'll get a backlog. Has anyone survived with 60%? Are HODs actually strict about this or is it just a scare tactic?",
+                "category": "academics", "tags": "attendance, college, panic", "author": "Priyanshi Sharma",
+                "views": 842, "likes": 94, "time_offset": days_ago(1),
+                "comments": [
+                    ("academics", "I had attendance shortage too last semester. Went to the HOD with my parents and a medical certificate. He approved it but shouted a lot."),
+                    ("hostel", "Just proxy bro. Why didn't you ask your roommates?"),
+                    ("academics", "Depends on your university. VIT is super strict. Others might let it slide if your internal marks are good."),
+                    ("general", "I thought I was the only one. Waking up at 8 AM is torture."),
+                    ("wellness", "If you missed classes due to mental health, please talk to the counselor. They can actually intervene on your behalf.")
+                ]
             },
             {
-                "title": "Homesickness is killing me",
-                "content": "I haven't been home in 5 months. The hostel food is terrible, my roommates are loud, and I just miss my own bed and my mom's cooking. I cried in the bathroom today. How do you guys deal with this? Does it get better?",
-                "category": "depression",
-                "tags": "hostel, homesick, lonely",
-                "author": "Sanya Malhotra",
-                "views": 432, "likes": 56, "time_offset": days_ago(5)
+                "title": "How to clear backlogs without losing your mind?",
+                "content": "I failed Engineering Drawing and M2 in my first year. Now I'm in 3rd year and the ATKT exams are clashing with my regular mid-sems. I'm completely overwhelmed.",
+                "category": "academics", "tags": "backlogs, exams, engineering", "author": "Kunal Verma",
+                "views": 530, "likes": 42, "time_offset": days_ago(4),
+                "comments": [
+                    ("academics", "M2 is a nightmare. I cleared it after 3 attempts. Just practice previous year papers. They repeat 80% of the questions."),
+                    ("academics", "Focus on the regular mid-sems first. ATKT can be cleared by just attempting all questions and drawing neat diagrams."),
+                    ("wellness", "Please don't panic. Almost 40% of the batch gets a backlog at some point. It won't ruin your career."),
+                    ("general", "This happened to me during placements. I had an active backlog. It was stressful but I cleared it."),
+                    ("academics", "Use YouTube. Gajendra Purohit for Math. Literally saved my degree.")
+                ]
             },
+            
+            # WELLNESS
             {
                 "title": "Deleted LinkedIn for a month. Best decision ever.",
-                "content": "If you're feeling anxious, DELETE LINKEDIN. Seriously. Seeing everyone post 'I am thrilled to announce...' was destroying my self-esteem. I took a 30 day detox and my mental health is so much better. Stop comparing your behind-the-scenes with someone else's highlight reel.",
-                "category": "anxiety",
-                "tags": "linkedin, mental-health, advice",
-                "author": "Siddharth Menon",
-                "views": 1530, "likes": 342, "time_offset": days_ago(10)
-            },
-            {
-                "title": "Roommate problems: He plays Valo at 3 AM",
-                "content": "Guys I need advice. My roommate plays Valorant till 3 AM screaming in the mic. I have morning classes at 8 AM. I've tried talking to him nicely but he just says 'bro adjust karle'. I am sleep deprived and constantly irritated.",
-                "category": "stress",
-                "tags": "hostel, roommates, sleep",
-                "author": "Akash Varma",
-                "views": 612, "likes": 45, "time_offset": hours_ago(8)
-            },
-            {
-                "title": "Imposter syndrome in CS",
-                "content": "I am in 2nd year CS and I feel like I know nothing. Everyone in my class is building full stack apps, doing ML, winning hackathons, and I am struggling to center a div. Am I in the wrong field?",
-                "category": "depression",
-                "tags": "cs, imposter-syndrome, coding",
-                "author": "Neha Joshi",
-                "views": 1102, "likes": 120, "time_offset": days_ago(3)
-            },
-            {
-                "title": "How to handle parents' expectations?",
-                "content": "My parents want me to get a 10 LPA+ job minimum. They keep comparing me to my cousin who got into Google. They don't understand that the market is terrible right now. Every time they call, it's just 'job laga?'. The pressure is suffocating.",
-                "category": "stress",
-                "tags": "parents, pressure, jobs",
-                "author": "Rohan Patel",
-                "views": 1823, "likes": 215, "time_offset": days_ago(1)
-            },
-            {
-                "title": "Failed my first internal viva",
-                "content": "I just completely blanked in front of the external examiner. He literally laughed and asked if I even attended classes. I feel so humiliated. I want to drop out.",
-                "category": "anxiety",
-                "tags": "viva, exams, failure",
-                "author": "Omkar Naik",
-                "views": 320, "likes": 28, "time_offset": hours_ago(2)
-            },
-            {
-                "title": "Burnout recovery - My journey",
-                "content": "A few months ago I was so burnt out I couldn't look at a screen. I stopped coding, stopped studying. I started taking small walks, eating properly, and talking to a counselor here on this platform. If you're burnt out, please stop pushing yourself. Take a break. Your brain needs rest just like a muscle.",
-                "category": "depression",
-                "tags": "burnout, recovery, health",
-                "author": "Ananya Shah",
-                "views": 750, "likes": 189, "time_offset": days_ago(15)
+                "content": "Seeing everyone post 'I am thrilled to announce...' was destroying my self-esteem. I took a 30 day detox. I realized nobody actually cares about those posts. Stop comparing your behind-the-scenes with someone else's highlight reel.",
+                "category": "wellness", "tags": "linkedin, mental-health, advice", "author": "Siddharth Menon",
+                "views": 1530, "likes": 342, "time_offset": days_ago(10),
+                "comments": [
+                    ("wellness", "This advice actually worked for me. I deactivated my account last week."),
+                    ("placements", "I agree, but unfortunately recruiters do check LinkedIn. It's a necessary evil."),
+                    ("wellness", "I thought I was the only one feeling insecure scrolling through it. The humble bragging is insane."),
+                    ("general", "Bro same 😂 'I am humbled to drink water today...'"),
+                    ("academics", "It's so toxic. Just use it for jobs and close the tab. Don't read the feed.")
+                ]
             },
             {
                 "title": "Is it okay to have no friends in 3rd year?",
-                "content": "I lost touch with my first year friend group. Now in 3rd year, everyone has their solid cliques. I sit alone in the canteen and library. It feels so isolating. Am I the only one?",
-                "category": "depression",
-                "tags": "lonely, friends, college",
-                "author": "Kavya Singh",
-                "views": 940, "likes": 145, "time_offset": days_ago(7)
+                "content": "I lost touch with my first year friend group. Now everyone has their solid cliques. I sit alone in the canteen and library. It feels so isolating. Does anyone else relate?",
+                "category": "wellness", "tags": "lonely, friends, college", "author": "Kavya Singh",
+                "views": 940, "likes": 145, "time_offset": days_ago(5),
+                "comments": [
+                    ("wellness", "I am exactly in the same situation. I just put my headphones on and pretend I'm busy. It hurts sometimes."),
+                    ("student-life", "Join a club! It's the easiest way to meet people with similar interests in 3rd year."),
+                    ("hostel", "Being alone is better than being with toxic friends. Trust me, my hostel group was awful."),
+                    ("wellness", "We're in this together. DMs are open if you ever want to chat."),
+                    ("general", "Same. College isn't always like the movies. It's okay to just focus on yourself.")
+                ]
+            },
+
+            # HOSTEL
+            {
+                "title": "My roommate plays Valorant till 3 AM screaming.",
+                "content": "Guys I need advice. He screams in the mic. I have morning classes at 8 AM. I've tried talking to him nicely but he just says 'bro adjust karle'. I am sleep deprived.",
+                "category": "hostel", "tags": "hostel, roommates, sleep", "author": "Rahul Dravid",
+                "views": 612, "likes": 88, "time_offset": hours_ago(8),
+                "comments": [
+                    ("hostel", "My roommate is exactly like this. I had to complain to the warden to change my room."),
+                    ("general", "Buy good earplugs. Or disconnect the WiFi router at 1 AM. 😂"),
+                    ("hostel", "Talk to the warden. Don't 'adjust'. It's your room too and your sleep is important."),
+                    ("coding", "Tell him if he's hard stuck in Silver he should just sleep instead of ruining yours."),
+                    ("wellness", "Lack of sleep will ruin your mental health. Please take strict action.")
+                ]
             },
             {
-                "title": "Fear of public speaking ruining my grades",
-                "content": "We have mandatory presentations and my social anxiety goes crazy. My hands shake, my voice cracks, and I forget everything. My professor gave me a C just because of my presentation skills even though my project was the best.",
-                "category": "anxiety",
-                "tags": "presentations, social-anxiety",
-                "author": "Ishita Nair",
-                "views": 415, "likes": 67, "time_offset": days_ago(4)
+                "title": "Homesickness is killing me. Miss my mom's food.",
+                "content": "It's my first month in the hostel. The mess food is terrible (dal looks like yellow water). I cry almost every night. How do you guys deal with this?",
+                "category": "hostel", "tags": "hostel, homesick, food", "author": "Rishi Kumar",
+                "views": 432, "likes": 56, "time_offset": days_ago(12),
+                "comments": [
+                    ("hostel", "The first month is the hardest. You'll get used to the terrible food. Find a good local Maggi spot."),
+                    ("wellness", "It's completely normal to cry. Allow yourself to feel it. Call your parents every evening."),
+                    ("hostel", "Learn to make instant oats and keep a stock of cup noodles. Mess food never gets better."),
+                    ("student-life", "Hang out with friends in the common room. Distraction helps a lot with homesickness."),
+                    ("general", "Bro same 😭 I went home last weekend just to eat paneer.")
+                ]
+            },
+
+            # CODING
+            {
+                "title": "I solved 400 LC questions and still blanked in OA",
+                "content": "I've been grinding Leetcode since 2nd year. Yesterday was an OA and I literally blanked out on a simple sliding window problem. Am I just not meant for coding?",
+                "category": "coding", "tags": "leetcode, oa, burnout", "author": "Aarav Mehta",
+                "views": 2100, "likes": 203, "time_offset": days_ago(1),
+                "comments": [
+                    ("coding", "It's performance anxiety, not a skill issue. You know the concepts. Doing it under a timer is different."),
+                    ("placements", "Don't beat yourself up. OAs are getting ridiculously hard. Companies are asking CP level questions."),
+                    ("coding", "Start giving virtual contests on Codeforces or LC. It builds the timer pressure habit."),
+                    ("wellness", "You are burnt out. 400 questions is a lot. Take a one week break completely away from the keyboard."),
+                    ("coding", "Which company OA was this? Amazon?")
+                ]
             },
             {
-                "title": "Any off-campus placement tips?",
-                "content": "Campus placements are completely dead this year. Companies are coming for 3-4 LPA max with bonds. Has anyone successfully cracked a good off-campus role recently? I am cold emailing but no replies.",
-                "category": "stress",
-                "tags": "placements, off-campus, jobs",
-                "author": "Karan Malhotra",
-                "views": 2100, "likes": 156, "time_offset": hours_ago(20)
+                "title": "Is open source actually helpful for jobs?",
+                "content": "Everyone on Twitter says 'contribute to open source'. But the codebases are massive and I can't even figure out how to setup the local environment. Does it actually help in getting a job?",
+                "category": "coding", "tags": "open-source, jobs, github", "author": "Omkar Naik",
+                "views": 850, "likes": 75, "time_offset": days_ago(6),
+                "comments": [
+                    ("coding", "Yes! I got my internship through an open source contribution. Don't start with big repos like React. Start with smaller tools you actually use."),
+                    ("placements", "It sets your resume apart from the 1000s of 'Netflix Clone' projects."),
+                    ("coding", "The environment setup is the hardest part. Once you fix a small typo or documentation issue, you get the confidence to fix bugs."),
+                    ("general", "I tried GSoC once. Got completely overwhelmed and quit. Mad respect to people who do it."),
+                    ("coding", "Look for 'good first issue' labels on GitHub. Maintainers are usually very helpful.")
+                ]
+            },
+
+            # STUDENT LIFE
+            {
+                "title": "How do you guys manage time for hobbies?",
+                "content": "Between 9 to 5 classes, assignments, and preparing for placements, I literally have zero time for playing guitar. My days are just a blur. Anyone found a balance?",
+                "category": "student-life", "tags": "time-management, hobbies", "author": "Testing User",
+                "views": 540, "likes": 65, "time_offset": days_ago(3),
+                "comments": [
+                    ("student-life", "You don't find time, you make time. Block 30 minutes before sleeping just for guitar. No phone, no studies."),
+                    ("academics", "I usually finish assignments during boring lectures. Frees up my evening."),
+                    ("wellness", "Don't sacrifice your hobbies. They are what keep you sane during the placement grind."),
+                    ("hostel", "We started a jam session in the hostel common room every Sunday. It forces me to play."),
+                    ("general", "I thought I was the only one. My guitar is just catching dust in the corner.")
+                ]
             },
             {
-                "title": "I don't understand anything in ECE",
-                "content": "Signals and Systems is going over my head. Microprocessors makes no sense. I took ECE because my parents said 'it has scope'. I just want to code. Will this get better or am I doomed?",
-                "category": "stress",
-                "tags": "ece, engineering, academics",
-                "author": "Harsh Trivedi",
-                "views": 530, "likes": 42, "time_offset": days_ago(6)
-            },
-            {
-                "title": "Coping with a breakup during exams",
-                "content": "My girlfriend of 2 years broke up with me yesterday. End sems start next week. I can't focus on anything. Every time I open a book I just start crying. How do I survive these exams?",
-                "category": "depression",
-                "tags": "breakup, exams, focus",
-                "author": "Testing User",
-                "views": 1205, "likes": 198, "time_offset": days_ago(2)
-            },
-            {
-                "title": "Hackathon pressure is toxic",
-                "content": "Why is college culture just about grinding 24/7? Hackathons on weekends, assignments on weekdays. We are humans, not machines. I skipped a hackathon this weekend to just sleep and my teammates called me 'lazy'.",
-                "category": "stress",
-                "tags": "hackathons, toxic, rest",
-                "author": "Simran Kaur",
-                "views": 890, "likes": 134, "time_offset": days_ago(8)
-            },
-            {
-                "title": "Should I change my major?",
-                "content": "I'm in BCA first year and I absolutely hate it. I wanted to do Design but my parents forced me into IT. Is it too late to switch? Will I waste a year?",
-                "category": "anxiety",
-                "tags": "career, major, confusion",
-                "author": "Varun Dhawan",
-                "views": 240, "likes": 12, "time_offset": hours_ago(5)
-            },
-            {
-                "title": "The CGPA trap",
-                "content": "Seniors always said 'CGPA doesn't matter, skills do'. Bro, companies are putting 8.5 CGPA cutoffs. I have 7.8 with great projects and I am not even allowed to sit for the OA. It's so unfair.",
-                "category": "stress",
-                "tags": "cgpa, placements, unfair",
-                "author": "Kabir Singh",
-                "views": 2840, "likes": 412, "time_offset": days_ago(1)
-            },
-            {
-                "title": "How to get medical certificates for attendance?",
-                "content": "Asking for a friend. Need a 2-week medical certificate to cover my short attendance. Are there doctors who give it easily? My HOD is very strict.",
-                "category": "anxiety",
-                "tags": "attendance, hacks, college",
-                "author": "Testing User",
-                "views": 1500, "likes": 88, "time_offset": days_ago(12)
-            },
-            {
-                "title": "I failed DSA",
-                "content": "Got my results today. F in Data Structures. I feel like my career is over before it even started. How will I ever clear interviews if I can't even pass the college exam?",
-                "category": "depression",
-                "tags": "failure, dsa, academics",
-                "author": "Aditya Singh",
-                "views": 670, "likes": 75, "time_offset": days_ago(9)
-            },
-            {
-                "title": "Just a reminder: You are more than your grades",
-                "content": "Hey everyone. Seeing a lot of stressful posts lately. Just wanted to remind you that 10 years from now, nobody will ask about your CGPA or your backlog. Take a deep breath. Drink water. You got this. ❤️",
-                "category": "stress",
-                "tags": "motivation, positive, mental-health",
-                "author": "Sneha Iyer",
-                "views": 3200, "likes": 580, "time_offset": days_ago(1)
+                "title": "College festivals are overrated.",
+                "content": "Unpopular opinion: College fests are just crowded, noisy, and way too expensive. I'd rather stay in my room and watch Netflix. Anyone else skipping the upcoming fest?",
+                "category": "student-life", "tags": "fests, introvert, college", "author": "Diya Kapoor",
+                "views": 1100, "likes": 180, "time_offset": days_ago(8),
+                "comments": [
+                    ("general", "This! 💯 The food stalls overcharge for everything and the EDM nights are just sweaty mosh pits."),
+                    ("student-life", "I disagree completely. Fests are where you make the best memories. You'll miss this when you graduate."),
+                    ("hostel", "I only go for the free merchandise at the sponsor booths. 😂"),
+                    ("wellness", "As an introvert, large crowds give me panic attacks. I skip them every year."),
+                    ("academics", "I use fest days to catch up on my sleep and backlogs. Campus is empty, library is peaceful.")
+                ]
             }
         ]
         
-        db_posts = []
-        user_map = {u.name: u for u in users}
+        user_list = [u for u in users]
         
-        for pdata in post_data:
-            author = user_map.get(pdata["author"], main_user)
+        # Helper to get users by persona
+        def get_users_by_persona(p):
+            # fallback to general if none found
+            matched = [u for u in user_list if user_personas[u.id] == p]
+            if not matched:
+                return [random.choice(user_list)]
+            return matched
+
+        for pdata in posts_data:
+            author = next((u for u in user_list if u.name == pdata["author"]), main_user)
             post = models.CommunityPost(
                 user_id=author.id,
                 title=pdata["title"],
@@ -281,81 +295,27 @@ def seed_db():
                 created_at=pdata["time_offset"]
             )
             db.add(post)
-            db_posts.append(post)
+            db.commit()
+            db.refresh(post)
             
-        db.commit()
-        for p in db_posts:
-            db.refresh(p)
-            
-        print("Seeding Comments & Replies...")
-        
-        # We will generate programmatic comments to mimic real conversations
-        # For each post, we'll add 8-10 comments, some nested.
-        
-        comment_templates = [
-            "Bro same 😭",
-            "I was in the exact same situation during my third semester. It gets better, trust me.",
-            "Honestly, placement season is brutal right now. Don't take it personally.",
-            "My attendance was 62% last semester too. Go talk to your HOD and cry a little, it works sometimes.",
-            "I also failed DSA once. Now I'm working as an SDE. Marks != Skills.",
-            "Don't compare yourself with LinkedIn. It's all fake flexing.",
-            "Take a break man. Go watch a movie or sleep for 12 hours.",
-            "I literally feel this in my soul.",
-            "Have you tried talking to the campus counselor?",
-            "If anyone wants to vent, my DMs are open. We're in this together.",
-            "CFBR",
-            "Honestly I just stopped caring. Whatever happens, happens.",
-            "This is so relatable it hurts.",
-            "Wait, you guys are studying?",
-            "Skill issue 💀 (jk bro, stay strong)",
-            "I deleted LinkedIn 6 months ago. So much peace.",
-            "Just grind NeetCode 150. Forget the rest.",
-            "I think you should reconsider your branch if you hate it that much.",
-            "Hostel food is basically slow poison.",
-            "Go home for a week. Tell them you're sick. You need a break.",
-            "Don't panic. Medical certificates usually work if you get them from a govt hospital.",
-            "I have 3 backlogs and I'm still chilling. Just clear them next sem.",
-            "Nobody cares about CGPA off-campus. Just build good projects."
-        ]
-        
-        for post in db_posts:
-            num_comments = random.randint(6, 12)
-            
-            # Select random users to comment
-            commenters = random.sample(users, num_comments)
-            
+            # Generate comments based on the defined context logic
             parent_comments = []
-            
-            for i in range(num_comments):
-                c_user = commenters[i]
+            for persona_req, text in pdata["comments"]:
+                c_user = random.choice(get_users_by_persona(persona_req))
                 c_time = post.created_at + timedelta(minutes=random.randint(10, 600))
                 
-                # 30% chance to be a reply to an existing comment
+                # Random chance to make it a nested reply
                 if parent_comments and random.random() < 0.3:
                     parent = random.choice(parent_comments)
-                    
-                    reply_text = random.choice([
-                        "Exactly!",
-                        "I disagree completely.",
-                        "Bro how did you manage that?",
-                        "Thanks for the tip!",
-                        "Can I DM you about this?",
-                        "This! 💯",
-                        "Are you from VIT too?"
-                    ])
-                    
                     reply = models.Comment(
                         post_id=post.id,
                         user_id=c_user.id,
                         parent_id=parent.id,
-                        content=reply_text,
+                        content=text,
                         created_at=c_time
                     )
                     db.add(reply)
                 else:
-                    # Parent comment
-                    text = random.choice(comment_templates)
-                    
                     comment = models.Comment(
                         post_id=post.id,
                         user_id=c_user.id,
@@ -363,7 +323,7 @@ def seed_db():
                         created_at=c_time
                     )
                     db.add(comment)
-                    db.commit() # commit immediately to get ID for parent
+                    db.commit()
                     db.refresh(comment)
                     parent_comments.append(comment)
                     
@@ -371,21 +331,10 @@ def seed_db():
         
         print("Seeding Bookmarks & Notifications...")
         
-        # Add some bookmarks for the main user
-        bookmarked_posts = random.sample(db_posts, 5)
-        for p in bookmarked_posts:
-            bm = models.Bookmark(
-                user_id=main_user.id,
-                post_id=p.id,
-                created_at=days_ago(random.randint(1, 10))
-            )
-            db.add(bm)
-            
         # Add some notifications
         notifs = [
-            ("New Reply", "Aarav Mehta replied to your comment on 'The CGPA trap'"),
-            ("New Like", "Your post 'Coping with a breakup during exams' got 10 new likes"),
-            ("Trending", "Hot discussion in Placement Stress: 'I solved 400 LC questions...'"),
+            ("New Reply", "Aarav Mehta replied to your comment on 'How do you guys manage time for hobbies?'"),
+            ("Trending", "Hot discussion in Placements: 'Rejected after 4 rounds at Google.'"),
             ("System", "Welcome to PeerMindHub! Complete your profile to connect with peers.")
         ]
         
@@ -399,7 +348,7 @@ def seed_db():
             db.add(n)
             
         db.commit()
-        print("Database seeded successfully with rich BIOTHON 2026 data!")
+        print("Database seeded successfully with rich context-aware BIOTHON 2026 data!")
         
     except Exception as e:
         print(f"Error seeding database: {e}")

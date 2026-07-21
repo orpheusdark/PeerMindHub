@@ -1,8 +1,7 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -21,196 +20,118 @@ import {
   Flag,
   Eye,
   ArrowLeft,
-  Send,
   Shield,
-  AlertTriangle,
 } from "lucide-react"
 import Link from "next/link"
 import { useParams } from "next/navigation"
+import { api, getAuthToken } from "@/lib/api"
 
-const mockPosts = [
-  {
-    id: "demo-1",
-    title: "Exam Anxiety: Feeling completely frozen when trying to study for finals",
-    content: "Is anyone else feeling completely frozen when trying to study for the DBMS final? I just sit there staring at the screen and my heart races. Any advice would be greatly appreciated.",
-    author: {
-      displayName: "Sneha Iyer",
-      isAnonymous: false,
-      joinDate: "3 months ago",
-    },
-    createdAt: "2 hours ago",
-    replies: 12,
-    likes: 42,
-    views: 156,
-    isSticky: true,
-    tags: ["anxiety", "exams", "stress"],
-  },
-  {
-    id: "demo-2",
-    title: "Internship Rejections: I just got my 5th rejection email.",
-    content: "Feeling like I'm not good enough for this industry. Placements are coming up and I am terrified. How do you deal with constant rejection without losing hope?",
-    author: {
-      displayName: "Anonymous",
-      isAnonymous: true,
-      joinDate: "1 month ago",
-    },
-    createdAt: "5 hours ago",
-    replies: 28,
-    likes: 85,
-    views: 310,
-    isSticky: false,
-    tags: ["career", "placements", "rejections", "burnout"],
-  },
-  {
-    id: "demo-3",
-    title: "Homesickness in the hostel",
-    content: "It's my first month in the hostel and I miss home so much. I cry almost every night. I feel like everyone else is having fun and I'm the only one struggling.",
-    author: {
-      displayName: "Ananya Desai",
-      isAnonymous: false,
-      joinDate: "2 weeks ago",
-    },
-    createdAt: "1 day ago",
-    replies: 45,
-    likes: 112,
-    views: 420,
-    isSticky: false,
-    tags: ["mental health", "loneliness", "hostel"],
-  },
-  {
-    id: "demo-4",
-    title: "Meditation helps - 10 minute guided session",
-    content: "I started using the 10-minute guided meditation on this app. It actually lowered my heart rate before the viva. Definitely recommend trying it if you feel overwhelmed.",
-    author: {
-      displayName: "Rohan Patel",
-      isAnonymous: false,
-      joinDate: "5 months ago",
-    },
-    createdAt: "2 days ago",
-    replies: 18,
-    likes: 76,
-    views: 290,
-    isSticky: false,
-    tags: ["recovery", "mindfulness", "success"],
-  },
-  {
-    id: "demo-5",
-    title: "Late Night Study: Tips for staying awake?",
-    content: "What are your tips for staying awake without drinking 5 cups of coffee? My sleep cycle is completely ruined before the midsems.",
-    author: {
-      displayName: "Kunal Verma",
-      isAnonymous: false,
-      joinDate: "1 year ago",
-    },
-    createdAt: "3 days ago",
-    replies: 34,
-    likes: 54,
-    views: 205,
-    isSticky: false,
-    tags: ["study tips", "sleep", "productivity"],
-  }
-
-
-]
+// Category-specific fallback mock posts in case the backend fails.
+const categoryFallbackPosts: Record<string, any[]> = {
+  placements: [
+    { id: 101, title: "Rejected after 4 rounds at Google.", content: "I prepared for 6 months. I feel completely empty right now. Should I even bother applying off-campus?", author_name: "Arjun Kulkarni", created_at: new Date().toISOString(), likes: 210, views: 2945, replies: 5, tags: "rejections, google, interview", category: "placements" },
+    { id: 102, title: "Is 6 LPA good for a fresher in Bangalore?", content: "I got a PPO from my internship but it's 6 LPA. My friends are holding out for 10+ LPA packages.", author_name: "Simran Kaur", created_at: new Date().toISOString(), likes: 57, views: 1823, replies: 5, tags: "ppo, salary, bangalore", category: "placements" }
+  ],
+  academics: [
+    { id: 103, title: "My attendance is 62%. Will medical certificates work?", content: "The college says minimum 75% is required or I'll get a backlog. Has anyone survived with 60%?", author_name: "Priyanshi Sharma", created_at: new Date().toISOString(), likes: 94, views: 842, replies: 5, tags: "attendance, college, panic", category: "academics" },
+    { id: 104, title: "How to clear backlogs without losing your mind?", content: "I failed Engineering Drawing and M2 in my first year. Now I'm in 3rd year and the ATKT exams are clashing with my regular mid-sems.", author_name: "Kunal Verma", created_at: new Date().toISOString(), likes: 42, views: 530, replies: 5, tags: "backlogs, exams, engineering", category: "academics" }
+  ],
+  wellness: [
+    { id: 105, title: "Deleted LinkedIn for a month. Best decision ever.", content: "Seeing everyone post 'I am thrilled to announce...' was destroying my self-esteem. I took a 30 day detox.", author_name: "Siddharth Menon", created_at: new Date().toISOString(), likes: 342, views: 1530, replies: 5, tags: "linkedin, mental-health, advice", category: "wellness" },
+    { id: 106, title: "Is it okay to have no friends in 3rd year?", content: "I lost touch with my first year friend group. Now everyone has their solid cliques. I sit alone in the canteen and library.", author_name: "Kavya Singh", created_at: new Date().toISOString(), likes: 145, views: 940, replies: 5, tags: "lonely, friends, college", category: "wellness" }
+  ],
+  hostel: [
+    { id: 107, title: "My roommate plays Valorant till 3 AM screaming.", content: "Guys I need advice. He screams in the mic. I have morning classes at 8 AM.", author_name: "Rahul Dravid", created_at: new Date().toISOString(), likes: 88, views: 612, replies: 5, tags: "hostel, roommates, sleep", category: "hostel" },
+    { id: 108, title: "Homesickness is killing me. Miss my mom's food.", content: "It's my first month in the hostel. The mess food is terrible (dal looks like yellow water).", author_name: "Rishi Kumar", created_at: new Date().toISOString(), likes: 56, views: 432, replies: 5, tags: "hostel, homesick, food", category: "hostel" }
+  ],
+  coding: [
+    { id: 109, title: "I solved 400 LC questions and still blanked in OA", content: "I've been grinding Leetcode since 2nd year. Yesterday was an OA and I literally blanked out on a simple sliding window problem.", author_name: "Aarav Mehta", created_at: new Date().toISOString(), likes: 203, views: 2100, replies: 5, tags: "leetcode, oa, burnout", category: "coding" },
+    { id: 110, title: "Is open source actually helpful for jobs?", content: "Everyone on Twitter says 'contribute to open source'. But the codebases are massive.", author_name: "Omkar Naik", created_at: new Date().toISOString(), likes: 75, views: 850, replies: 5, tags: "open-source, jobs, github", category: "coding" }
+  ],
+  "student-life": [
+    { id: 111, title: "How do you guys manage time for hobbies?", content: "Between 9 to 5 classes, assignments, and preparing for placements, I literally have zero time for playing guitar.", author_name: "Testing User", created_at: new Date().toISOString(), likes: 65, views: 540, replies: 5, tags: "time-management, hobbies", category: "student-life" },
+    { id: 112, title: "College festivals are overrated.", content: "Unpopular opinion: College fests are just crowded, noisy, and way too expensive.", author_name: "Diya Kapoor", created_at: new Date().toISOString(), likes: 180, views: 1100, replies: 5, tags: "fests, introvert, college", category: "student-life" }
+  ],
+  general: [
+    { id: 999, title: "Feature under development", content: "This category does not have any active posts yet.", author_name: "System", created_at: new Date().toISOString(), likes: 0, views: 0, replies: 0, tags: "system", category: "general" }
+  ]
+}
 
 const categoryInfo = {
-  anxiety: {
-    name: "चिंता सहायता (Anxiety Support)",
-    description: "चिंता विकारों के लिए अनुभव और सामना करने की रणनीतियां साझा करें",
-    icon: "🌊",
-    memberCount: 1892,
+  placements: {
+    name: "Placement & Careers",
+    description: "Discuss OAs, interviews, resume reviews, and off-campus jobs",
+    icon: "💼",
+    memberCount: 2292,
     guidelines: [
-      "Share your experiences openly and honestly",
-      "Offer support and encouragement to others",
-      "Avoid giving medical advice - share what works for you",
-      "Respect different coping strategies and experiences",
-      "Use trigger warnings when discussing sensitive topics",
+      "Share genuine interview experiences",
+      "Do not leak confidential OA questions directly",
+      "Offer constructive feedback on resumes",
+      "Keep compensation discussions respectful",
     ],
   },
-  depression: {
-    name: "अवसाद सहायता (Depression Support)",
-    description: "अवसाद और मूड विकारों पर चर्चा के लिए एक सुरक्षित स्थान",
-    icon: "🌱",
-    memberCount: 2340,
+  academics: {
+    name: "Exams & Academics",
+    description: "Semester exams, backlogs, attendance, and study tips",
+    icon: "📚",
+    memberCount: 1840,
     guidelines: [
-      "This is a judgment-free zone for sharing experiences",
-      "Support others with empathy and understanding",
-      "Share resources and coping strategies that help you",
-      "Remember that recovery looks different for everyone",
-      "Celebrate small victories and progress",
+      "Share helpful study resources and notes",
+      "Do not promote academic dishonesty",
+      "Offer support for students struggling with backlogs",
     ],
   },
-  stress: {
-    name: "तनाव प्रबंधन (Stress Management)",
-    description: "दैनिक तनाव को संभालने की तकनीकें और सहायता",
+  wellness: {
+    name: "Mental Wellness",
+    description: "Anxiety, burnout, imposter syndrome, and coping strategies",
     icon: "🧘",
-    memberCount: 1567,
+    memberCount: 867,
     guidelines: [
-      "Share practical stress management techniques",
-      "Discuss work-life balance strategies",
-      "Support others in finding healthy coping mechanisms",
-      "Share resources for relaxation and mindfulness",
+      "This is a safe, judgment-free zone",
+      "Avoid giving direct medical advice",
+      "Use trigger warnings for sensitive topics",
+      "Be empathetic and supportive",
     ],
   },
-  family: {
-    name: "पारिवारिक समस्याएं (Family Issues)",
-    description: "पारिवारिक रिश्तों और घरेलू समस्याओं के लिए सहायता",
-    icon: "👨‍👩‍👧‍👦",
+  hostel: {
+    name: "Hostel Life",
+    description: "Mess food, noisy roommates, homesickness, and survival tips",
+    icon: "🏠",
+    memberCount: 634,
+    guidelines: [
+      "Share practical survival tips for hostel living",
+      "Respect the privacy of your roommates in stories",
+      "Keep food reviews clean",
+    ],
+  },
+  coding: {
+    name: "Coding & Hackathons",
+    description: "LeetCode, open source, projects, and hackathon teams",
+    icon: "💻",
+    memberCount: 3789,
+    guidelines: [
+      "Share coding resources and project ideas",
+      "Help debug without insulting skill levels",
+      "Post hackathon team-up requests clearly",
+    ],
+  },
+  "student-life": {
+    name: "Student Life",
+    description: "Clubs, fests, hobbies, and balancing college life",
+    icon: "🎸",
     memberCount: 1234,
     guidelines: [
-      "Respect cultural differences in family dynamics",
-      "Share experiences with family-related stress",
-      "Offer support for relationship challenges",
-      "Maintain confidentiality and respect privacy",
-    ],
-  },
-  "work-stress": {
-    name: "कार्यक्षेत्र तनाव (Workplace Stress)",
-    description: "नौकरी और करियर संबंधी तनाव की चर्चा",
-    icon: "💼",
-    memberCount: 1789,
-    guidelines: [
-      "Share workplace mental health strategies",
-      "Discuss career-related anxiety and stress",
-      "Support others in work-life balance",
-      "Share resources for professional development",
-    ],
-  },
-  students: {
-    name: "छात्र सहायता (Student Support)",
-    description: "शैक्षणिक दबाव और करियर चिंताओं के लिए सहायता",
-    icon: "📚",
-    memberCount: 2567,
-    guidelines: [
-      "Support fellow students with academic stress",
-      "Share study techniques and coping strategies",
-      "Discuss exam anxiety and performance pressure",
-      "Celebrate academic achievements and progress",
-    ],
-  },
-  women: {
-    name: "महिला स्वास्थ्य (Women's Mental Health)",
-    description: "महिलाओं के मानसिक स्वास्थ्य के मुद्दों पर चर्चा",
-    icon: "👩",
-    memberCount: 1456,
-    guidelines: [
-      "Create a safe space for women's experiences",
-      "Discuss gender-specific mental health challenges",
-      "Support each other through life transitions",
-      "Share resources for women's mental wellness",
+      "Share club and fest experiences",
+      "Discuss hobbies and work-life balance",
+      "Keep campus gossip to a minimum",
     ],
   },
   general: {
-    name: "सामान्य चर्चा (General Discussion)",
-    description: "मानसिक स्वास्थ्य और कल्याण पर खुली चर्चा",
+    name: "General Discussion",
+    description: "Feature under development",
     icon: "💬",
-    memberCount: 3190,
-    guidelines: [
-      "Welcome all mental health discussions",
-      "Share general wellness tips and resources",
-      "Support community building and connection",
-      "Maintain respectful and inclusive dialogue",
-    ],
+    memberCount: 0,
+    guidelines: ["Be respectful"],
   },
 }
 
@@ -219,6 +140,9 @@ function CategoryContent() {
   const category = params.category as string
   const [searchQuery, setSearchQuery] = useState("")
   const [showNewPost, setShowNewPost] = useState(false)
+  const [posts, setPosts] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  
   const [newPost, setNewPost] = useState({
     title: "",
     content: "",
@@ -228,19 +152,46 @@ function CategoryContent() {
 
   const categoryData = categoryInfo[category as keyof typeof categoryInfo] || categoryInfo.general
 
-  const filteredPosts = mockPosts.filter(
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const data = await api.get("/community")
+        // Filter posts by category
+        const filtered = data.posts.filter((p: any) => p.category === category)
+        if (filtered.length > 0) {
+          setPosts(filtered)
+        } else {
+          // No backend posts for this category, use contextual fallback
+          setPosts(categoryFallbackPosts[category] || categoryFallbackPosts.general)
+        }
+      } catch (err) {
+        console.error("Failed to fetch backend posts, using fallbacks:", err)
+        setPosts(categoryFallbackPosts[category] || categoryFallbackPosts.general)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchPosts()
+  }, [category])
+
+  const filteredPosts = posts.filter(
     (post) =>
       post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase())),
+      (post.tags && post.tags.toLowerCase().includes(searchQuery.toLowerCase())),
   )
 
   const handleSubmitPost = (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: Implement post submission
     console.log("New post:", newPost)
     setShowNewPost(false)
     setNewPost({ title: "", content: "", isAnonymous: true, tags: "" })
+  }
+
+  // Format date helper
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
   }
 
   return (
@@ -276,7 +227,7 @@ function CategoryContent() {
           <div className="flex items-center space-x-4 text-sm text-muted-foreground">
             <span>{categoryData.memberCount} members</span>
             <span>•</span>
-            <span>{filteredPosts.length} posts</span>
+            <span>{posts.length} posts</span>
             <span>•</span>
             <span>Moderated community</span>
           </div>
@@ -348,33 +299,16 @@ function CategoryContent() {
                       </label>
                       <Input
                         id="tags"
-                        placeholder="anxiety, coping, work (separate with commas)"
+                        placeholder="e.g., placements, anxiety, leetcode"
                         value={newPost.tags}
                         onChange={(e) => setNewPost({ ...newPost, tags: e.target.value })}
                       />
                     </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <input
-                          type="checkbox"
-                          id="anonymous"
-                          checked={newPost.isAnonymous}
-                          onChange={(e) => setNewPost({ ...newPost, isAnonymous: e.target.checked })}
-                          className="rounded"
-                        />
-                        <label htmlFor="anonymous" className="text-sm">
-                          Post anonymously
-                        </label>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button type="button" variant="outline" onClick={() => setShowNewPost(false)}>
-                          Cancel
-                        </Button>
-                        <Button type="submit">
-                          <Send className="h-4 w-4 mr-2" />
-                          Post
-                        </Button>
-                      </div>
+                    <div className="flex justify-end space-x-2">
+                      <Button type="button" variant="ghost" onClick={() => setShowNewPost(false)}>
+                        Cancel
+                      </Button>
+                      <Button type="submit">Post to Community</Button>
                     </div>
                   </form>
                 </CardContent>
@@ -383,20 +317,18 @@ function CategoryContent() {
 
             {/* Posts List */}
             <div className="space-y-4">
-              {filteredPosts.map((post) => (
-                <Card key={post.id} className="hover:shadow-md transition-shadow">
+              {isLoading ? (
+                <div className="text-center py-8 text-muted-foreground">Loading community posts...</div>
+              ) : filteredPosts.length > 0 ? (
+                filteredPosts.map((post) => (
+                <Card key={post.id} className="hover:border-primary/50 transition-colors">
                   <CardHeader className="pb-3">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
+                    <div className="flex justify-between items-start">
+                      <div className="space-y-1">
                         <div className="flex items-center space-x-2 mb-2">
-                          {post.isSticky && (
-                            <Badge variant="secondary" className="bg-primary/10 text-primary">
-                              Pinned
-                            </Badge>
-                          )}
-                          {post.tags.map((tag) => (
-                            <Badge key={tag} variant="outline" className="text-xs">
-                              {tag}
+                          {(post.tags ? post.tags.split(',') : []).map((tag: string) => (
+                            <Badge key={tag} variant="secondary" className="text-xs">
+                              {tag.trim()}
                             </Badge>
                           ))}
                         </div>
@@ -418,33 +350,37 @@ function CategoryContent() {
                         <div className="flex items-center space-x-2">
                           <Avatar className="h-6 w-6">
                             <AvatarFallback className="text-xs bg-primary/10 text-primary">
-                              {post.author.displayName.charAt(0)}
+                              {post.author_name ? post.author_name.charAt(0) : "A"}
                             </AvatarFallback>
                           </Avatar>
                           <div className="text-sm">
-                            <span className="font-medium">{post.author.displayName}</span>
-                            <span className="text-muted-foreground ml-2">{post.createdAt}</span>
+                            <span className="font-medium">{post.author_name || "Anonymous"}</span>
+                            <span className="text-muted-foreground ml-2">{formatDate(post.created_at)}</span>
                           </div>
                         </div>
                       </div>
                       <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                         <div className="flex items-center space-x-1">
                           <Eye className="h-4 w-4" />
-                          <span>{post.views}</span>
+                          <span>{post.views || 0}</span>
                         </div>
                         <div className="flex items-center space-x-1">
                           <MessageCircle className="h-4 w-4" />
-                          <span>{post.replies}</span>
+                          <span>{post.replies || post.comments?.length || 0}</span>
                         </div>
                         <div className="flex items-center space-x-1">
                           <ThumbsUp className="h-4 w-4" />
-                          <span>{post.likes}</span>
+                          <span>{post.likes || 0}</span>
                         </div>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
-              ))}
+              ))) : (
+                <div className="text-center py-8 text-muted-foreground border rounded-lg bg-muted/20">
+                  <p>No discussions found in this category.</p>
+                </div>
+              )}
             </div>
           </div>
 
@@ -459,7 +395,7 @@ function CategoryContent() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                {categoryData.guidelines.map((guideline, index) => (
+                {categoryData.guidelines.map((guideline: string, index: number) => (
                   <div key={index} className="flex items-start space-x-2">
                     <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0" />
                     <p className="text-sm text-muted-foreground">{guideline}</p>
@@ -477,24 +413,6 @@ function CategoryContent() {
                   <p className="text-xs">
                     This forum is actively moderated 24/7. All posts are reviewed for community guidelines compliance.
                   </p>
-                </div>
-              </AlertDescription>
-            </Alert>
-
-            {/* Crisis Support */}
-            <Alert className="border-destructive/20 bg-destructive/5">
-              <AlertTriangle className="h-4 w-4 text-destructive" />
-              <AlertDescription>
-                <div className="space-y-2">
-                  <p className="font-medium text-sm">Need immediate help?</p>
-                  <p className="text-xs">
-                    If you're in crisis, please contact emergency services or call a crisis helpline immediately.
-                  </p>
-                  <Link href="/crisis-helplines">
-                    <Button size="sm" variant="destructive" className="w-full">
-                      Crisis Resources
-                    </Button>
-                  </Link>
                 </div>
               </AlertDescription>
             </Alert>
