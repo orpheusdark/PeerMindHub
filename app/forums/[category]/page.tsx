@@ -400,7 +400,7 @@ function CategoryContent() {
                             </Badge>
                           ))}
                         </div>
-                        <Link href={`/forums/${category}/${post.id}`}>
+                        <Link href={`/forums/post/${post.id}`}>
                           <CardTitle className="text-lg hover:text-primary transition-colors cursor-pointer">
                             {post.title}
                           </CardTitle>

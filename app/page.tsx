@@ -372,10 +372,10 @@ export default function HomePage() {
       <footer className="py-12 px-4 sm:px-6 lg:px-8 bg-muted/30 border-t border-border">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center space-x-2 mb-4">
+            <div className="space-y-4">
+              <div className="flex items-center space-x-2">
                 <Heart className="h-6 w-6 text-primary" />
-                <span className="font-bold text-lg">PeerMindHub</span>
+                <span className="font-bold text-xl text-foreground">PeerMindHub</span>
               </div>
               <p className="text-muted-foreground">Breaking barriers to mental health support across India.</p>
             </div>
@@ -383,17 +383,17 @@ export default function HomePage() {
               <h4 className="font-semibold mb-4">Platform</h4>
               <ul className="space-y-2 text-muted-foreground">
                 <li>
-                  <Link href="#" className="hover:text-primary transition-colors">
+                  <Link href="#features" className="hover:text-primary transition-colors">
                     Forums
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-primary transition-colors">
+                  <Link href="#features" className="hover:text-primary transition-colors">
                     Resources
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-primary transition-colors">
+                  <Link href="#features" className="hover:text-primary transition-colors">
                     Self-Help Tools
                   </Link>
                 </li>
@@ -403,19 +403,19 @@ export default function HomePage() {
               <h4 className="font-semibold mb-4">Support</h4>
               <ul className="space-y-2 text-muted-foreground">
                 <li>
-                  <Link href="#" className="hover:text-primary transition-colors">
+                  <Link href="/crisis-helplines" className="hover:text-primary transition-colors">
                     Crisis Helplines
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-primary transition-colors">
+                  <Link href="/community-guidelines" className="hover:text-primary transition-colors">
                     Community Guidelines
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-primary transition-colors">
+                  <a href="mailto:support@peermindhub.com" className="hover:text-primary transition-colors">
                     Contact Us
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -423,17 +423,17 @@ export default function HomePage() {
               <h4 className="font-semibold mb-4">Legal</h4>
               <ul className="space-y-2 text-muted-foreground">
                 <li>
-                  <Link href="#" className="hover:text-primary transition-colors">
+                  <Link href="/privacy" className="hover:text-primary transition-colors">
                     Privacy Policy
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-primary transition-colors">
+                  <Link href="/terms" className="hover:text-primary transition-colors">
                     Terms of Service
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-primary transition-colors">
+                  <Link href="/privacy" className="hover:text-primary transition-colors">
                     Data Protection
                   </Link>
                 </li>

@@ -78,40 +78,12 @@ export default function SignInPage() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium">Patient: patient@demo.com / password123</p>
+                  <p className="text-sm font-medium">Demo: testing@demo.com / password123</p>
                 </div>
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => fillDemoCredentials("patient@demo.com", "password123")}
-                  disabled={isLoading}
-                  className="text-xs"
-                >
-                  Use
-                </Button>
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium">Counselor: counselor@demo.com / password123</p>
-                </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => fillDemoCredentials("counselor@demo.com", "password123")}
-                  disabled={isLoading}
-                  className="text-xs"
-                >
-                  Use
-                </Button>
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium">Admin: admin@demo.com / password123</p>
-                </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => fillDemoCredentials("admin@demo.com", "password123")}
+                  onClick={() => fillDemoCredentials("testing@demo.com", "password123")}
                   disabled={isLoading}
                   className="text-xs"
                 >

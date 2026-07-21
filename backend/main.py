@@ -26,9 +26,7 @@ async def lifespan(app: FastAPI):
     db = SessionLocal()
     try:
         demo_users = [
-            {"name": "Patient User", "email": "patient@demo.com", "password": "password123"},
-            {"name": "Counselor User", "email": "counselor@demo.com", "password": "password123"},
-            {"name": "Admin User", "email": "admin@demo.com", "password": "password123"},
+            {"name": "Testing User", "email": "testing@demo.com", "password": "password123"},
         ]
         for user_data in demo_users:
             if not db.query(models.User).filter(models.User.email == user_data["email"]).first():

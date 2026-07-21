@@ -33,6 +33,7 @@ function MoodTrackerContent() {
   const [moodNote, setMoodNote] = useState("")
   const [selectedFactors, setSelectedFactors] = useState<string[]>([])
   const [moodHistory, setMoodHistory] = useState<any[]>(initialMoodHistory)
+  const [showFullHistory, setShowFullHistory] = useState(false)
 
   
   useEffect(() => {
@@ -220,7 +221,7 @@ function MoodTrackerContent() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {moodHistory.slice(0, 5).map((entry, index) => (
+                    {(showFullHistory ? moodHistory : moodHistory.slice(0, 5)).map((entry, index) => (
                       <div key={index} className="flex items-start space-x-4 p-4 border rounded-lg">
                         <div className="flex items-center space-x-2">
                           <span className="text-2xl">{moodLabels[(entry.mood || 3) as keyof typeof moodLabels]?.emoji || "😐"}</span>
@@ -237,12 +238,14 @@ function MoodTrackerContent() {
                       </div>
                     ))}
                   </div>
-                  <div className="mt-4 text-center">
-                    <Button variant="outline" className="bg-transparent">
-                      <BarChart3 className="h-4 w-4 mr-2" />
-                      View Full History
-                    </Button>
-                  </div>
+                  {moodHistory.length > 5 && (
+                    <div className="mt-4 text-center">
+                      <Button variant="outline" className="bg-transparent" onClick={() => setShowFullHistory(!showFullHistory)}>
+                        <BarChart3 className="h-4 w-4 mr-2" />
+                        {showFullHistory ? "Show Less" : "View Full History"}
+                      </Button>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </div>
