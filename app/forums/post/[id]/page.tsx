@@ -50,6 +50,24 @@ const mockPostsData: Record<string, any> = {
   },
   "112": {
     id: 112, title: "College festivals are overrated.", content: "Unpopular opinion: College fests are just crowded, noisy, and way too expensive. I'd rather stay in my room and watch Netflix.", author_name: "Diya Kapoor", category: "student-life", tags: "fests, introvert, college", likes: 180, views: 1100, created_at: new Date().toISOString()
+  },
+  "113": {
+    id: 113, title: "Resume review thread for SDE roles", content: "Drop your anonymized resumes here. I'm a senior who recently bagged an offer from Microsoft. I will review as many as I can today.", author_name: "Arjun Kulkarni", category: "placements", tags: "resume, review, sde", likes: 512, views: 4500, created_at: new Date().toISOString()
+  },
+  "114": {
+    id: 114, title: "Tips for scoring high in internal vivas?", content: "I always study well but freeze during viva voce when the external examiner cross questions. How do you maintain confidence?", author_name: "Sneha Iyer", category: "academics", tags: "viva, exams, tips", likes: 45, views: 620, created_at: new Date().toISOString()
+  },
+  "115": {
+    id: 115, title: "Feeling constantly burnt out.", content: "Does anyone else wake up feeling exhausted even after 8 hours of sleep? I feel like I'm running on empty every single day.", author_name: "Kavya Singh", category: "wellness", tags: "burnout, sleep, health", likes: 230, views: 1200, created_at: new Date().toISOString()
+  },
+  "116": {
+    id: 116, title: "Best midnight snacks for hostel?", content: "Getting bored of Maggi every night. What are some easy to make snacks that don't require a stove?", author_name: "Rahul Dravid", category: "hostel", tags: "food, snacks, midnight", likes: 65, views: 340, created_at: new Date().toISOString()
+  },
+  "117": {
+    id: 117, title: "Anyone doing Web3 development?", content: "Is Web3 dead or is it still worth learning? I see fewer jobs for Solidity devs now compared to 2022.", author_name: "Omkar Naik", category: "coding", tags: "web3, crypto, jobs", likes: 42, views: 890, created_at: new Date().toISOString()
+  },
+  "118": {
+    id: 118, title: "Join our music club jamming session!", content: "We're organizing an acoustic jamming session near the amphi this Friday at 6 PM. Bring your instruments! All are welcome.", author_name: "Diya Kapoor", category: "student-life", tags: "music, club, event", likes: 120, views: 560, created_at: new Date().toISOString()
   }
 }
 
@@ -102,6 +120,34 @@ const mockCommentsData: Record<string, any[]> = {
   "112": [
     { id: 1, content: "This! 💯 The food stalls overcharge for everything.", author_name: "Ananya Desai", created_at: new Date().toISOString(), replies: [] },
     { id: 2, content: "I only go for the free merchandise at the sponsor booths. 😂", author_name: "Harsh Trivedi", created_at: new Date().toISOString(), replies: [] }
+  ],
+  "113": [
+    { id: 1, content: "Thanks for doing this! Here's mine: [Link]", author_name: "Simran Kaur", created_at: new Date().toISOString(), replies: [] },
+    { id: 2, content: "Can you check my projects section? Not sure if it's too detailed.", author_name: "Omkar Naik", created_at: new Date().toISOString(), replies: [] },
+    { id: 3, content: "Is a 1-page resume strictly required for 2+ YOE?", author_name: "Yash Desai", created_at: new Date().toISOString(), replies: [{ id: 4, content: "Yes. Recruiters don't read the second page.", author_name: "Arjun Kulkarni", created_at: new Date().toISOString() }] }
+  ],
+  "114": [
+    { id: 1, content: "Just answer confidently. Even if you're wrong, say it with confidence.", author_name: "Priyanshi Sharma", created_at: new Date().toISOString(), replies: [] },
+    { id: 2, content: "Take a deep breath before answering. It's okay to say 'I don't know the exact answer but I can try'.", author_name: "Sneha Iyer", created_at: new Date().toISOString(), replies: [] }
+  ],
+  "115": [
+    { id: 1, content: "Get your Vitamin D and B12 checked! It's a common issue for hostelers.", author_name: "Rishi Kumar", created_at: new Date().toISOString(), replies: [] },
+    { id: 2, content: "Same. The constant grind culture is toxic.", author_name: "Testing User", created_at: new Date().toISOString(), replies: [] },
+    { id: 3, content: "Try taking a complete break on Sundays. No laptop, no books.", author_name: "Sneha Iyer", created_at: new Date().toISOString(), replies: [] }
+  ],
+  "116": [
+    { id: 1, content: "Peanut butter sandwich with bananas. Elite.", author_name: "Rahul Dravid", created_at: new Date().toISOString(), replies: [] },
+    { id: 2, content: "We literally make cold coffee in a shaker with milk powder.", author_name: "Kunal Verma", created_at: new Date().toISOString(), replies: [] },
+    { id: 3, content: "Bhel puri packets! Just add onions and tomatoes.", author_name: "Ananya Desai", created_at: new Date().toISOString(), replies: [] }
+  ],
+  "117": [
+    { id: 1, content: "AI is the new Web3 bro. Pivot to AI.", author_name: "Yash Desai", created_at: new Date().toISOString(), replies: [] },
+    { id: 2, content: "It's not dead, just stabilized. Still good money if you are actually good at it.", author_name: "Aarav Mehta", created_at: new Date().toISOString(), replies: [] },
+    { id: 3, content: "Better to stick to full stack for on-campus placements. Very few Web3 companies visit.", author_name: "Arjun Kulkarni", created_at: new Date().toISOString(), replies: [] }
+  ],
+  "118": [
+    { id: 1, content: "Can I join if I don't know how to play but just want to listen?", author_name: "Kavya Singh", created_at: new Date().toISOString(), replies: [{ id: 2, content: "Yes! Audience is heavily appreciated.", author_name: "Diya Kapoor", created_at: new Date().toISOString() }] },
+    { id: 3, content: "Finally something fun happening on campus!", author_name: "Testing User", created_at: new Date().toISOString(), replies: [] }
   ]
 }
 
