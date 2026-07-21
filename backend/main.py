@@ -47,6 +47,12 @@ app = FastAPI(title="FleetAI Backend MVP", version="1.0.0", lifespan=lifespan)
 def read_root():
     return {"status": "ok", "message": "PeerMindHub API is running successfully!"}
 
+@app.get("/api/seed")
+def seed_database():
+    import seed
+    seed.seed_db()
+    return {"status": "ok", "message": "Rich demo data successfully seeded!"}
+
 # Setup CORS
 app.add_middleware(
     CORSMiddleware,
