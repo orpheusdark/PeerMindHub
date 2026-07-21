@@ -11,6 +11,7 @@ import { Heart, MessageCircle, ArrowLeft, Flag, Bookmark, Share2 } from "lucide-
 import Link from "next/link"
 import { useAuth } from "@/components/auth/auth-context"
 import { UnderDevelopmentModal } from "@/components/ui/under-development-modal"
+import { api } from "@/lib/api"
 
 // Context-aware fallback mock data mapping
 const mockPostsData: Record<string, any> = {
@@ -120,28 +121,20 @@ export default function PostPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const postRes = await fetch(`https://peermindhub.onrender.com/community/${postId}`)
-        if (postRes.ok) {
-          const postData = await postRes.json()
-          setPost(postData)
-        } else {
-          setPost(mockPostsData[postId] || defaultFallback)
-        }
-        
-        const commentsRes = await fetch(`https://peermindhub.onrender.com/community/${postId}/comments`)
-        if (commentsRes.ok) {
-          const commentsData = await commentsRes.json()
-          const parents = commentsData.filter((c: any) => !c.parent_id)
-          parents.forEach((p: any) => {
-            p.replies = commentsData.filter((c: any) => c.parent_id === p.id)
-          })
-          setComments(parents)
-        } else {
-          setComments(mockCommentsData[postId] || [])
-        }
+        const postData = await api.get(`/community/${postId}`)
+        setPost(postData)
       } catch (err) {
-        console.warn("Backend unavailable, using realistic contextual fallback data.")
         setPost(mockPostsData[postId] || defaultFallback)
+      }
+        
+      try {
+        const commentsData = await api.get(`/community/${postId}/comments`)
+        const parents = commentsData.filter((c: any) => !c.parent_id)
+        parents.forEach((p: any) => {
+          p.replies = commentsData.filter((c: any) => c.parent_id === p.id)
+        })
+        setComments(parents)
+      } catch (err) {
         setComments(mockCommentsData[postId] || [])
       } finally {
         setLoading(false)

@@ -214,6 +214,9 @@ def get_post(post_id: int, db: Session = Depends(get_db)):
 
 @app.get("/community/{post_id}/comments", response_model=list[schemas.CommentOut])
 def get_post_comments(post_id: int, db: Session = Depends(get_db)):
+    post = db.query(models.CommunityPost).filter(models.CommunityPost.id == post_id).first()
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
     comments = db.query(models.Comment).filter(models.Comment.post_id == post_id).order_by(models.Comment.created_at.asc()).all()
     results = []
     for c in comments:

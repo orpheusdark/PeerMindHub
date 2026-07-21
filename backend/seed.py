@@ -272,6 +272,77 @@ def seed_db():
             }
         ]
         
+        posts_data.extend([
+            {
+                "title": "Resume review thread for SDE roles",
+                "content": "Drop your anonymized resumes here. I'm a senior who recently bagged an offer from Microsoft. I will review as many as I can today.",
+                "category": "placements", "tags": "resume, review, sde", "author": "Arjun Kulkarni",
+                "views": 4500, "likes": 512, "time_offset": hours_ago(5),
+                "comments": [
+                    ("placements", "Thanks for doing this! Here's mine: [Link]"),
+                    ("coding", "Can you check my projects section? Not sure if it's too detailed."),
+                    ("placements", "Is a 1-page resume strictly required for 2+ YOE?"),
+                    ("general", "Following this thread for tips.")
+                ]
+            },
+            {
+                "title": "Tips for scoring high in internal vivas?",
+                "content": "I always study well but freeze during viva voce when the external examiner cross questions. How do you maintain confidence?",
+                "category": "academics", "tags": "viva, exams, tips", "author": "Sneha Iyer",
+                "views": 620, "likes": 45, "time_offset": days_ago(3),
+                "comments": [
+                    ("academics", "Just answer confidently. Even if you're wrong, say it with confidence."),
+                    ("wellness", "Take a deep breath before answering. It's okay to say 'I don't know the exact answer but I can try'."),
+                    ("academics", "Memorize the first 3 lines of every definition perfectly.")
+                ]
+            },
+            {
+                "title": "Feeling constantly burnt out.",
+                "content": "Does anyone else wake up feeling exhausted even after 8 hours of sleep? I feel like I'm running on empty every single day.",
+                "category": "wellness", "tags": "burnout, sleep, health", "author": "Kavya Singh",
+                "views": 1200, "likes": 230, "time_offset": hours_ago(20),
+                "comments": [
+                    ("wellness", "Get your Vitamin D and B12 checked! It's a common issue for hostelers."),
+                    ("general", "Same. The constant grind culture is toxic."),
+                    ("wellness", "Try taking a complete break on Sundays. No laptop, no books.")
+                ]
+            },
+            {
+                "title": "Best midnight snacks for hostel?",
+                "content": "Getting bored of Maggi every night. What are some easy to make snacks that don't require a stove?",
+                "category": "hostel", "tags": "food, snacks, midnight", "author": "Rahul Dravid",
+                "views": 340, "likes": 65, "time_offset": days_ago(1),
+                "comments": [
+                    ("hostel", "Peanut butter sandwich with bananas. Elite."),
+                    ("student-life", "We literally make cold coffee in a shaker with milk powder."),
+                    ("hostel", "Bhel puri packets! Just add onions and tomatoes.")
+                ]
+            },
+            {
+                "title": "Anyone doing Web3 development?",
+                "content": "Is Web3 dead or is it still worth learning? I see fewer jobs for Solidity devs now compared to 2022.",
+                "category": "coding", "tags": "web3, crypto, jobs", "author": "Omkar Naik",
+                "views": 890, "likes": 42, "time_offset": days_ago(8),
+                "comments": [
+                    ("coding", "AI is the new Web3 bro. Pivot to AI."),
+                    ("coding", "It's not dead, just stabilized. Still good money if you are actually good at it."),
+                    ("placements", "Better to stick to full stack for on-campus placements. Very few Web3 companies visit.")
+                ]
+            },
+            {
+                "title": "Join our music club jamming session!",
+                "content": "We're organizing an acoustic jamming session near the amphi this Friday at 6 PM. Bring your instruments! All are welcome.",
+                "category": "student-life", "tags": "music, club, event", "author": "Diya Kapoor",
+                "views": 560, "likes": 120, "time_offset": hours_ago(2),
+                "comments": [
+                    ("student-life", "Can I join if I don't know how to play but just want to listen?"),
+                    ("student-life", "Yes! Audience is heavily appreciated."),
+                    ("general", "Finally something fun happening on campus!")
+                ]
+            }
+        ])
+
+        
         user_list = [u for u in users]
         
         # Helper to get users by persona

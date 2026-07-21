@@ -157,7 +157,7 @@ function CategoryContent() {
       try {
         const data = await api.get("/community")
         // Filter posts by category
-        const filtered = data.posts.filter((p: any) => p.category === category)
+        const filtered = data.filter((p: any) => p.category === category)
         if (filtered.length > 0) {
           setPosts(filtered)
         } else {
