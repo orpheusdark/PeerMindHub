@@ -1,3 +1,8 @@
+"use client"
+
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { useAuth } from "@/components/auth/auth-context"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -17,6 +22,20 @@ import {
 import Link from "next/link"
 
 export default function HomePage() {
+  const { user, isLoading } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!isLoading && user) {
+      router.push("/dashboard")
+    }
+  }, [user, isLoading, router])
+
+  // Optional: prevent flash of landing page while checking auth
+  if (isLoading || user) {
+    return null
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}

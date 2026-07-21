@@ -171,7 +171,7 @@ function BreathingContent() {
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center space-x-2">
               <Heart className="h-8 w-8 text-primary" />
-              <span className="font-bold text-xl text-foreground">MindConnect</span>
+              <span className="font-bold text-xl text-foreground">PeerMindHub</span>
             </Link>
             <div className="flex items-center space-x-4">
               <Link href="/tools" className="text-muted-foreground hover:text-primary transition-colors">
