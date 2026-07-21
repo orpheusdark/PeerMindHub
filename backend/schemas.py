@@ -14,6 +14,8 @@ class UserProfileUpdate(BaseModel):
     university: Optional[str] = None
     course: Optional[str] = None
     year: Optional[str] = None
+    avatar_url: Optional[str] = None
+    interests: Optional[str] = None
 
 class UserOut(BaseModel):
     id: int
@@ -23,6 +25,8 @@ class UserOut(BaseModel):
     university: Optional[str] = None
     course: Optional[str] = None
     year: Optional[str] = None
+    avatar_url: Optional[str] = None
+    interests: Optional[str] = None
     created_at: datetime
 
     class Config:
@@ -62,6 +66,7 @@ class JournalOut(JournalCreate):
     user_id: int
     sentiment_score: Optional[float] = None
     sentiment_label: Optional[str] = None
+    ai_recommendation: Optional[str] = None
     created_at: datetime
 
     class Config:
@@ -72,12 +77,14 @@ class CommunityPostCreate(BaseModel):
     title: str
     content: str
     category: str
+    tags: Optional[str] = None
     is_anonymous: Optional[bool] = False
 
 class CommunityPostOut(CommunityPostCreate):
     id: int
     user_id: int
     likes: int
+    views: int
     created_at: datetime
     # We might want to attach author name if not anonymous
     author_name: Optional[str] = None
@@ -88,3 +95,67 @@ class CommunityPostOut(CommunityPostCreate):
 # AI Assistant
 class ChatMessage(BaseModel):
     message: str
+
+# Comments
+class CommentCreate(BaseModel):
+    content: str
+    parent_id: Optional[int] = None
+    is_anonymous: Optional[bool] = False
+
+class CommentOut(CommentCreate):
+    id: int
+    post_id: int
+    user_id: int
+    created_at: datetime
+    author_name: Optional[str] = None
+    
+    class Config:
+        from_attributes = True
+
+# Resources
+class ResourceCategoryOut(BaseModel):
+    id: int
+    name: str
+    description: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+class ResourceOut(BaseModel):
+    id: int
+    category_id: int
+    title: str
+    description: str
+    content_url: Optional[str] = None
+    type: str
+    created_at: datetime
+    category: Optional[ResourceCategoryOut] = None
+
+    class Config:
+        from_attributes = True
+
+# Bookmarks
+class BookmarkCreate(BaseModel):
+    post_id: Optional[int] = None
+    resource_id: Optional[int] = None
+
+class BookmarkOut(BookmarkCreate):
+    id: int
+    user_id: int
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+# Notifications
+class NotificationOut(BaseModel):
+    id: int
+    user_id: int
+    title: str
+    message: str
+    is_read: bool
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+

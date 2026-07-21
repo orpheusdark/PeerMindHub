@@ -313,9 +313,8 @@ export default function CommunityGuidelinesPage() {
             </CardContent>
           </Card>
 
-          {/* Footer */}
           <div className="text-center text-sm text-muted-foreground">
-            <p>By participating in our community, you agree to follow these guidelines. Last updated: January 2024</p>
+            <p>By participating in our community, you agree to follow these guidelines. Last updated: July 2026</p>
           </div>
         </div>
       </div>

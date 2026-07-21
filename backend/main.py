@@ -195,8 +195,89 @@ def get_posts(db: Session = Depends(get_db)):
         out = schemas.CommunityPostOut.model_validate(p)
         out.author_name = "Anonymous" if p.is_anonymous else p.user.name
         results.append(out)
+@app.get("/community/{post_id}", response_model=schemas.CommunityPostOut)
+def get_post(post_id: int, db: Session = Depends(get_db)):
+    post = db.query(models.CommunityPost).filter(models.CommunityPost.id == post_id).first()
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    # Increment views
+    post.views += 1
+    db.commit()
+    db.refresh(post)
+    out = schemas.CommunityPostOut.model_validate(post)
+    out.author_name = "Anonymous" if post.is_anonymous else post.user.name
+    return out
+
+@app.get("/community/{post_id}/comments", response_model=list[schemas.CommentOut])
+def get_post_comments(post_id: int, db: Session = Depends(get_db)):
+    comments = db.query(models.Comment).filter(models.Comment.post_id == post_id).order_by(models.Comment.created_at.asc()).all()
+    results = []
+    for c in comments:
+        out = schemas.CommentOut.model_validate(c)
+        out.author_name = "Anonymous" if c.is_anonymous else c.user.name
+        results.append(out)
     return results
 
+@app.post("/community/{post_id}/comments", response_model=schemas.CommentOut)
+def create_comment(post_id: int, comment_data: schemas.CommentCreate, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+    post = db.query(models.CommunityPost).filter(models.CommunityPost.id == post_id).first()
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    new_comment = models.Comment(**comment_data.model_dump(), post_id=post_id, user_id=current_user.id)
+    db.add(new_comment)
+    db.commit()
+    db.refresh(new_comment)
+    out = schemas.CommentOut.model_validate(new_comment)
+    out.author_name = "Anonymous" if new_comment.is_anonymous else current_user.name
+    return out
+
+# --- Resources ---
+@app.get("/resources", response_model=list[schemas.ResourceOut])
+def get_resources(db: Session = Depends(get_db)):
+    return db.query(models.Resource).all()
+
+# --- Search ---
+@app.get("/search")
+def search(q: str, db: Session = Depends(get_db)):
+    posts = db.query(models.CommunityPost).filter(models.CommunityPost.title.ilike(f"%{q}%") | models.CommunityPost.content.ilike(f"%{q}%") | models.CommunityPost.tags.ilike(f"%{q}%")).all()
+    results = []
+    for p in posts:
+        out = schemas.CommunityPostOut.model_validate(p)
+        out.author_name = "Anonymous" if p.is_anonymous else p.user.name
+        results.append(out)
+    return {"posts": results}
+
+# --- Public Profiles ---
+@app.get("/users/public/{username}")
+def get_public_profile(username: str, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.name == username).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return {
+        "id": user.id,
+        "name": user.name,
+        "bio": user.bio,
+        "university": user.university,
+        "course": user.course,
+        "year": user.year,
+        "avatar_url": user.avatar_url,
+        "interests": user.interests,
+        "joined": user.created_at,
+        "posts_count": len(user.posts),
+        "comments_count": len(user.comments)
+    }
+
+# --- Dashboard Stats ---
+@app.get("/dashboard/statistics")
+def get_dashboard_stats(db: Session = Depends(get_db)):
+    return {
+        "members": db.query(models.User).count(),
+        "posts": db.query(models.CommunityPost).count(),
+        "comments": db.query(models.Comment).count(),
+        "active_today": 42, # Mock value for demo
+        "helpful_responses": 128,
+        "resources_shared": db.query(models.Resource).count()
+    }
 
 # --- AI Assistant ---
 @app.post("/ai/chat")
